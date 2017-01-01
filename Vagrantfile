@@ -77,9 +77,6 @@ Vagrant.configure(2) do |config|
             sudo apt-get install -y nodejs
         )
 
-        mkdir -p ~/opt
-        mkdir -p ~/workspace
-
         # Tmux
         sudo apt-get install -y \
             libncurses5-dev \
@@ -104,6 +101,8 @@ Vagrant.configure(2) do |config|
                 --enable-vim \
                 --enable-tmux
         )
+
+        mkdir -p ~/workspace
 
         sudo apt-get autoremove -y
     SHELL
