@@ -1,0 +1,27 @@
+[submodule "dotfiles"]
+	path = dotfiles
+	url = git@github.com:iamFIREcracker/dotfiles.git
+[submodule "opt/z"]
+	path = opt/z
+	url = https://github.com/rupa/z.git
+[submodule "opt/PathPicker"]
+	path = opt/PathPicker
+	url = https://github.com/facebook/PathPicker.git
+[submodule "opt/fabric-completion"]
+	path = opt/fabric-completion
+	url = https://github.com/underself/fabric-completion.git
+[submodule "opt/vagrant-bash-completion"]
+	path = opt/vagrant-bash-completion
+	url = https://github.com/kura/vagrant-bash-completion.git
+[submodule "fonts"]
+	path = fonts
+	url = https://github.com/powerline/fonts.git
+[submodule "opt/vim"]
+	path = opt/vim
+	url = https://github.com/vim/vim
+[submodule "opt/tmux"]
+	path = opt/tmux
+	url = https://github.com/tmux/tmux
+[submodule "iTerm2-Color-Schemes"]
+	path = iTerm2-Color-Schemes
+	url = https://github.com/mbadolato/iTerm2-Color-Schemes.git
