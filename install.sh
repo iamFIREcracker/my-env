@@ -35,7 +35,7 @@ set -x
 (
     if [ $ENABLE_DOTFILES -eq 0 ]; then
         cd dotfiles
-        bash install "$@"
+        bash install.sh "$@"
     fi
 )
 
