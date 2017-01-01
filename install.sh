@@ -19,9 +19,26 @@ for i; do
     fi
 done
 
+WORKDIR="$(pwd)"
+
 set -u
 set -e
 set -x
+
+function ensure_link {
+    test $FORCE -eq 0 && remove "$HOME/$2"
+    test -L "$HOME/$2" || create_link "$WORKDIR/$1" "$HOME/$2"
+}
+
+function create_link {
+    echo "L $2 -> $1"
+    ln -s "$1" "$2"
+}
+
+function remove {
+    echo "R $1"
+    rm -rf "$1"
+}
 
 (
     cd opt/bunny1
@@ -80,3 +97,6 @@ set -x
         fi
     fi
 )
+
+ensure_link "dotfiles" "dotfiles"
+ensure_link "opt"      "opt"
