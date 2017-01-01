@@ -1,5 +1,11 @@
 #Version 1.0.2
 
+# Plugin dependencies
+required_plugins = %w( vagrant-vbguest )
+required_plugins.each do |plugin|
+    system "vagrant plugin install #{plugin}" unless Vagrant.has_plugin? plugin
+end
+
 Vagrant.configure(2) do |config|
     config.vm.box = "ubuntu/xenial64"
     config.vm.box_check_update = false
