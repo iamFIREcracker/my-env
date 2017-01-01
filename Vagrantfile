@@ -7,7 +7,7 @@ Vagrant.configure(2) do |config|
     config.ssh.forward_agent = true
 
     ## Synced folders
-    config.vm.synced_folder ".", "/vagrant", type: "nfs"
+    config.vm.synced_folder ".", "/vagrant", disabled: "false"
     config.vm.synced_folder "public", "/public"
 
     config.vm.provider :virtualbox do |vb|
@@ -91,14 +91,13 @@ Vagrant.configure(2) do |config|
             libperl-dev \
             ruby-dev
 
-        # Dev-box
+        # My-box
         (
             grep github.com ~/.ssh/config || \
                 echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
-            cd ~
-            [ ! -d dev-box ] && git clone --recursive /vagrant dev-box
-            cd dev-box
+            [ ! -d my-box ] && git clone --recursive git@github.com:iamFIREcracker/my-env.git
+            cd my-box
             bash install.sh \
                 --force \
                 --enable-vim \
