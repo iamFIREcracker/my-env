@@ -67,7 +67,7 @@ function remove {
 (
     if [ $ENABLE_TMUX -eq 0 ]; then
         cd opt/tmux
-        test $FORCE -eq 0 && make clean
+        test $FORCE -eq 0 && test -f 'tmux' && make clean
         if [ ! -f tmux ]; then
             sh autogen.sh
             ./configure 

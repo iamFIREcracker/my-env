@@ -91,15 +91,16 @@ Vagrant.configure(2) do |config|
             libperl-dev \
             ruby-dev
 
-        # My-box
+        # my-env
         (
             grep github.com ~/.ssh/config || \
                 echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
-            [ ! -d my-box ] && git clone --recursive git@github.com:iamFIREcracker/my-env.git
-            cd my-box
+            [ ! -d my-env ] && git clone --recursive git@github.com:iamFIREcracker/my-env.git
+            cd my-env
             bash install.sh \
                 --force \
+                --disable-nativefied-apps \
                 --enable-vim \
                 --enable-tmux
         )
