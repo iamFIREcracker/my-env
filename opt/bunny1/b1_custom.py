@@ -162,6 +162,14 @@ class CustomCommands(bunny1.Bunny1Commands):
         """Goes to Google Music"""
         return "https://play.google.com/music/listen"
 
+    def my(self, arg):
+        """Goes to personal my-env github repo"""
+        return "https://github.com/iamFIREcracker/my-env"
+
+    def mydot(self, arg):
+        """Goes to personal dotfiles github repo"""
+        return "https://github.com/iamFIREcracker/dotfiles"
+
     def nf(self, arg):
         """Go to netflix"""
         return "https://www.netflix.com"
