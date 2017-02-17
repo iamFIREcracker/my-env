@@ -126,7 +126,7 @@ class CustomCommands(bunny1.Bunny1Commands):
 
     def jk(self, arg):
         """Goes to Jenkins"""
-        return "https://con-jenk-mstr.lab49.com/job/ConnectION/"
+        return "https://jenkdev01.iontrading.com/job/ConnectION/"
 
     def jr(self, arg):
         """Go or search jira.iontrading.com"""
@@ -203,9 +203,16 @@ class CustomCommands(bunny1.Bunny1Commands):
         else:
             return "http://axton.fssnet.internal:8081/#welcome"
 
-    def rally(self, arg):
+    def rl(self, arg):
         """Goes to Connection Delivery train"""
-        return "https://rally1.rallydev.com/#/50168985559d/custom/50509556258"
+        if arg:
+            return "https://rally1.rallydev.com/#/50168985559d/search?keywords=%s" % qp(arg)
+        else:
+            return "https://rally1.rallydev.com/#/50168985559d/custom/50509556258"
+
+    def rlde(self, arg):
+        """Goes to Connection Delivery train, and add defect"""
+        return "https://rally1.rallydev.com/#/50168985559d/detail/defect/new?Iteration=u&Name=&Project=%2Fproject%2F50168985559&Release=u&c_ConnectIONKanbanState=O-IntegratION&cpoid=50168985559&iteration=u&rankScope=BACKLOG&rankTo=BOTTOM&typeDef=50169135083"
 
     def rfdoc(self, arg):
         """Goes or searches inside robotframework.org"""
