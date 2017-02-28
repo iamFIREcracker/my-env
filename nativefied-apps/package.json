@@ -2,9 +2,10 @@
   "name": "nativefier-apps-builder",
   "private": true,
   "scripts": {
-    "gmail": "nativefier gmail.com",
-    "messenger": "nativefier messenger.com",
-    "outlook": "nativefier --name Outlook https://outlook.office.com/owa/?realm=iontrading.com&path=/mail/inbox"
+    "nativeify": "nativefier --verbose --electron-version 1.4.15",
+    "gmail": "npm run nativeify -- --counter gmail.com",
+    "messenger": "npm run nativeify -- messenger.com",
+    "outlook": "npm run nativeify -- --name Outlook https://outlook.office.com/owa/?realm=iontrading.com",
   },
   "devDependencies": {
     "nativefier": "^7.0.1"
