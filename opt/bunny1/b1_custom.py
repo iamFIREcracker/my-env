@@ -214,6 +214,10 @@ class CustomCommands(bunny1.Bunny1Commands):
         """Goes to Connection Delivery train, and add defect"""
         return "https://rally1.rallydev.com/#/50168985559d/detail/defect/new?Iteration=u&Name=&Project=%2Fproject%2F50168985559&Release=u&c_ConnectIONKanbanState=O-IntegratION&cpoid=50168985559&iteration=u&rankScope=BACKLOG&rankTo=BOTTOM&typeDef=50169135083"
 
+    def res(self, arg):
+        """Goes to Resolutions"""
+        return "https://iamfirecracker.github.io/resolutions"
+
     def rfdoc(self, arg):
         """Goes or searches inside robotframework.org"""
         if arg:

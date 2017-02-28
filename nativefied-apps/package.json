@@ -6,6 +6,9 @@
     "gmail": "npm run nativeify -- --counter gmail.com",
     "messenger": "npm run nativeify -- messenger.com",
     "outlook": "npm run nativeify -- --name Outlook https://outlook.office.com/owa/?realm=iontrading.com",
+    "resolutions-download-icon": "curl -XGET https://iamfirecracker.github.io/resolutions/favicon.svg > resolutions.svg",
+    "resolutions-generate-png": "convert -background none resolutions.svg resolutions.png",
+    "resolutions": "npm run resolutions-download-icon && npm run resolutions-generate-png && npm run nativeify -- --name Resolutions --icon resolutions.png https://iamfirecracker.github.io/resolutions"
   },
   "devDependencies": {
     "nativefier": "^7.0.1"
