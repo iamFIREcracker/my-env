@@ -155,8 +155,11 @@ class CustomCommands(bunny1.Bunny1Commands):
         return self.so('[javascript] ' + arg)
 
     def l(self, arg):
-        """Show lodash documentation"""
-        return "https://lodash.com/docs"
+        """Goes to localhost[:arg]"""
+        if arg:
+            return "http://localhost:%s" % qp(arg)
+        else:
+            return "http://localhost"
 
     def m(self, arg):
         """Goes to Google Music"""
