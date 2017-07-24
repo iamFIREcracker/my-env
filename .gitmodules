@@ -28,3 +28,6 @@
 [submodule "gruvbox-contrib"]
 	path = gruvbox-contrib
 	url = https://github.com/morhetz/gruvbox-contrib.git
+[submodule "opt/cb"]
+	path = opt/cb
+	url = git@github.com:iamFIREcracker/cb.git
