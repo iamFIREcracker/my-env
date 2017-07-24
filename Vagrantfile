@@ -103,6 +103,7 @@ Vagrant.configure(2) do |config|
             cd my-env
             bash install.sh \
                 --force \
+                --disable-b1 \
                 --disable-nativefied-apps \
                 --enable-vim \
                 --enable-tmux

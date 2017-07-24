@@ -1,6 +1,7 @@
 #!/bin/bash
 
 FORCE=1
+ENABLE_B1=0
 ENABLE_DOTFILES=0
 ENABLE_NATIVEFIED_APPS=0
 ENABLE_TMUX=1
@@ -8,6 +9,8 @@ ENABLE_VIM=1
 for i; do
     if [ "$i" == '--force' ]; then
         FORCE=0
+    elif [ "$i" == '--disable-b1' ]; then
+        ENABLE_B1=1
     elif [ "$i" == '--disable-dotfiles' ]; then
         ENABLE_DOTFILES=1
     elif [ "$i" == '--disable-nativefied-apps' ]; then
@@ -41,12 +44,14 @@ function remove {
 }
 
 (
-    cd opt/bunny1
-    test $FORCE -eq 0 && rm -rf venv
-    if [ ! -d venv ]; then
-        virtualenv venv
+    if [ $ENABLE_B1 -eq 0 ]; then
+        cd opt/bunny1
+        test $FORCE -eq 0 && rm -rf venv
+        if [ ! -d venv ]; then
+            virtualenv venv
+        fi
+        venv/bin/pip install -r requirements.txt
     fi
-    venv/bin/pip install -r requirements.txt
 )
 
 (

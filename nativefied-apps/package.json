@@ -11,6 +11,6 @@
     "resolutions": "npm run resolutions-download-icon && npm run resolutions-generate-png && npm run nativeify -- --name Resolutions --icon resolutions.png https://iamfirecracker.github.io/resolutions"
   },
   "devDependencies": {
-    "nativefier": "^7.0.1"
+    "nativefier": "^7.4.0"
   }
 }
