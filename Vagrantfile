@@ -13,8 +13,8 @@ Vagrant.configure(2) do |config|
     config.ssh.forward_agent = true
 
     ## Synced folders
-    config.vm.synced_folder ".", "/vagrant", disabled: "false"
-    config.vm.synced_folder "public", "/public"
+    config.vm.synced_folder ".", "/vagrant", nfs: true
+    config.vm.synced_folder "public", "/public", nfs: true
 
     config.vm.provider :virtualbox do |vb|
         # vb.gui = true
@@ -110,6 +110,7 @@ Vagrant.configure(2) do |config|
         )
 
         mkdir -p ~/workspace
+        ln -s /vagrant/public ~/public
 
         sudo apt-get autoremove -y
     SHELL

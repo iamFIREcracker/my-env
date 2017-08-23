@@ -89,6 +89,13 @@ class CustomCommands(bunny1.Bunny1Commands):
         else:
             return "http://www.facebook.com/"
 
+    def fbb(self, arg):
+        """Search mbasic.facebook.com or go there"""
+        if arg:
+            return "https://mbasic.facebook.com/search/?query=%s" % qp(arg)
+        else:
+            return "https://mbasic.facebook.com/"
+
     def fbdev(self, arg):
         return "https://developers.facebook.com/"
 
