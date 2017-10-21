@@ -31,3 +31,6 @@
 [submodule "opt/cb"]
 	path = opt/cb
 	url = git@github.com:iamFIREcracker/cb.git
+[submodule "opt/vlime"]
+	path = opt/vlime
+	url = https://github.com/l04m33/vlime.git
