@@ -88,6 +88,7 @@ function remove {
         test $FORCE -eq 0 && make clean
         if [ ! -f vim ]; then
             ./configure \
+                    --enable-terminal \
                     --with-features=huge \
                     --enable-multibyte \
                     --enable-largefile \
