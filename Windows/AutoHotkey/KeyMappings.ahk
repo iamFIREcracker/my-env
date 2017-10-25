@@ -1,15 +1,37 @@
 #NoEnv  ; Recommended for performance and compatibility with future AutoHotkey releases.
+#UseHook ; https://autohotkey.com/docs/commands/_UseHook.htm
 #InstallKeybdHook
 #SingleInstance force
-SetTitleMatchMode 2
+
 SendMode Input  ; Recommended for new scripts due to its superior speed and reliability.
+
+SetTitleMatchMode 2
+
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
 
+; --------------------------------------------------------------
 ; Natural scrolling
+; --------------------------------------------------------------
 #MaxHotkeysPerInterval 400
 WheelDown::WheelUp
 WheelUp::WheelDown
+
+; --------------------------------------------------------------
+; Control as esc
+; --------------------------------------------------------------
+Ctrl UP::Send {Escape}
+Ctrl & F13::return
+
+; --------------------------------------------------------------
+; Shifts as parents
+; --------------------------------------------------------------
+LShift UP::Send (
+LShift & F13::return
+RShift UP::Send )
+RShift & F13::return
+
+
 
 F15 & Backspace::Reload
 F15 & space::
@@ -28,22 +50,17 @@ return
 ; --------------------------------------------------------------
 ; Application shortcuts -- my left ctrl has been remapped to F15
 ; --------------------------------------------------------------
-F15 & y::WinActivate TweetDeck
-F15 & i::WinActivate ahk_exe Teams.exe
+F15 & d::WinActivate ahk_exe WINWORD.EXE
 F15 & h::WinActivate ahk_class mintty_scratchpad
+F15 & i::WinActivate ahk_exe Teams.exe
 F15 & j::WinActivate ahk_class mintty
-F15 & k::WinActivate ahk_class MozillaWindowClass
+F15 & k::WinActivate ahk_exe chrome.exe
+F15 & l::DllCall("LockWorkStation")
 F15 & m::WinActivate ahk_exe OUTLOOK.EXE
 F15 & n::WinActivate Evernote
-F15 & u::WinActivate ahk_exe idea64.exe
 F15 & o::WinActivate ahk_class SpotifyMainWindow
 F15 & p::WinActivate ahk_class tSkMainForm ;Skype
-F15 & b::WinActivate Board
-F15 & s::WinActivate SysAdmin
-F15 & d::WinActivate ION.NET
-F15 & c::WinActivate Google Chrome
-F15 & w::WinActivate WhatsApp
-F15 & l::DllCall("LockWorkStation")
+F15 & u::WinActivate ahk_exe idea64.exe
 F15 & Up::Send {Volume_Up} 
 F15 & Down::Send {Volume_Down} 
 F15 & Delete::Send {Volume_Mute}
@@ -53,21 +70,6 @@ F15 & Delete::Send {Volume_Mute}
 ; Mac OS alike shortcuts
 ;-----------------------
 ^!4::run "c:\windows\system32\SnippingTool.exe"
-
-; --------------------------------------------------------------
-; Control as esc
-; --------------------------------------------------------------
-Ctrl UP::Send {Escape}
-Ctrl & F13::
-
-; --------------------------------------------------------------
-; Shifts as parents
-; --------------------------------------------------------------
-LShift UP::Send (
-LShift & F13::return
-RShift UP::Send )
-RShift & F13::return
-
 
 ; --------------------------------------------------------------
 ; NOTES
@@ -149,6 +151,10 @@ ResizePct(x_offset_pct, y_offset_pct, width_pct, height_pct)
     ^h::Send {Backspace}
     ^w::Send ^{Backspace}
 
+#IfWinActive ahk_exe chrome.exe
+    ^h::Send {Backspace}
+    ^w::Send ^{Backspace}
+
 #IfWinActive Mail
     ^h::Send {Backspace}
     ^w::Send ^{Backspace}
@@ -199,6 +205,11 @@ ResizePct(x_offset_pct, y_offset_pct, width_pct, height_pct)
     ^h::Send {Backspace}
     ^w::Send ^{Backspace}
 
+#IfWinActive ahk_exe Teams.exe
+    ^h::Send {Backspace}
+    ^w::Send ^{Backspace}
+    ^k::Send +{End}{Backspace}
+
 #IfWinActive Word
     ^h::Send {Backspace}
     ^w::Send ^{Backspace}
@@ -208,4 +219,3 @@ ResizePct(x_offset_pct, y_offset_pct, width_pct, height_pct)
     ^Return::Send {U+2720}
     ; Send Ř on <C-S-P> -- Vim uses it
     ^+P::Send {U+0158}
-

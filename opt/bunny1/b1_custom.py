@@ -26,7 +26,6 @@ class CustomCommands(bunny1.Bunny1Commands):
         """Go to the ion.web confluence page"""
         return "https://confluence.iontrading.com/display/RD/HTML5+-+Programming+reference"
 
-
     def cb(self, arg):
         """Go to Crunchbase, or search for a specific organization"""
         if arg:
@@ -37,9 +36,17 @@ class CustomCommands(bunny1.Bunny1Commands):
     def cn(self, arg):
         """Goes or search connection.iontrading.com"""
         if arg:
-            return "https://connection.iontrading.com/#/search/people?query=%s" % qp(arg)
+            return "https://connect.iongroup.com/#/search/people?query=%s" % qp(arg)
         else:
-            return "https://connection.iontrading.com"
+            return "https://connect.iongroup.com"
+
+    def cnadmin(self, arg):
+        """Goes to connection admin UI"""
+        return "https://connect.iongroup.com/admin/"
+
+    def cndb(self, arg):
+        """Goes to connection.iontrading.com db admin"""
+        return "https://cpuk1ionhurdb01.iontrading.com"
 
     def cnl(self, arg):
         """Go or search pimatlan01.iontrading.com"""
@@ -48,6 +55,10 @@ class CustomCommands(bunny1.Bunny1Commands):
         else:
             return "http://pimatlanw01.iontrading.com:9001/"
 
+    def cnldb(self, arg):
+        """Goes to pimatlanw01.iontrading.com db admin"""
+        return "http://pimatlanw01.iontrading.com:7474"
+
     def cnuat(self, arg):
         """Goes or search uat-connection.iontrading.com"""
         if arg:
@@ -55,12 +66,27 @@ class CustomCommands(bunny1.Bunny1Commands):
         else:
             return "https://uat-connection.iontrading.com"
 
+    def cnuatdb(self, arg):
+        """Goes to cuuk1ionhurdb01.iontrading.com db admin"""
+        return "https://cuuk1ionhurdb01.iontrading.com"
+
     def cnint(self, arg):
         """Goes or search int-connection.iontrading.com"""
         if arg:
             return "https://int-connection.iontrading.com/#/search/people?query=%s" % qp(arg)
         else:
             return "https://int-connection.iontrading.com"
+
+    def cnintdb(self, arg):
+        """Goes to cduk1ionhurdb01.iontrading.com db admin"""
+        return "https://cduk1ionhurdb01.iontrading.com"
+
+    def crontab(self, arg):
+        """Opens crontab.guru"""
+        if arg:
+            return "https://crontab.guru/#%s" % arg
+        else:
+            return "https://crontab.guru"
 
     def domain(self, arg):
         """Search www.facebook.com or go there"""
@@ -117,6 +143,13 @@ class CustomCommands(bunny1.Bunny1Commands):
         """Go on the JIRA helpdesk portal"""
         return "https://jira.iontrading.com/servicedesk/customer/portals"
 
+    def hdconn(self, arg):
+        """Go to https://jira.iontrading.com/browse/HDCONN, or a specific ticket"""
+        if arg:
+            return "https://jira.iontrading.com/browse/HDCONN-%s" % qp(arg)
+        else:
+            return "https://jira.iontrading.com/browse/HDCONN"
+
     def id(self, arg):
         """Search idioms"""
         if arg:
@@ -157,6 +190,7 @@ class CustomCommands(bunny1.Bunny1Commands):
             return "https://portal.tpt.com/devjira2/browse/%s" % qp(arg)
         else:
             return "https://portal.tpt.com/devjira2"
+
     def js(self, arg):
         """Search StackOverflow[Javascript] or goes there"""
         return self.so('[javascript] ' + arg)
@@ -167,10 +201,13 @@ class CustomCommands(bunny1.Bunny1Commands):
             return "http://localhost:%s" % qp(arg)
         else:
             return "http://localhost"
-
     def m(self, arg):
         """Goes to Google Music"""
         return "https://play.google.com/music/listen"
+
+    def menu(self, arg):
+        """Open lunch menu"""
+        return "https://iontradingcom-my.sharepoint.com/personal/andrea_cicalese_iongroup_com/_layouts/15/WopiFrame.aspx?sourcedoc=%7BF83D26BC-45DC-418E-9B97-810F804ED976%7D&file=Critical%20Meeting.xlsx&action=edit"
 
     def my(self, arg):
         """Goes to personal my-env github repo"""
@@ -213,6 +250,13 @@ class CustomCommands(bunny1.Bunny1Commands):
         else:
             return "http://axton.fssnet.internal:8081/#welcome"
 
+    def p(self, arg):
+        """Goes to pimatlanw01[:arg]"""
+        if arg:
+            return "http://pimatlanw01:%s" % qp(arg)
+        else:
+            return "http://pimatlanw01"
+
     def rl(self, arg):
         """Goes to Connection Delivery train"""
         if arg:
@@ -223,6 +267,10 @@ class CustomCommands(bunny1.Bunny1Commands):
     def rlde(self, arg):
         """Goes to Connection Delivery train, and add defect"""
         return "https://rally1.rallydev.com/#/50168985559d/detail/defect/new?Iteration=u&Name=&Project=%2Fproject%2F50168985559&Release=u&c_ConnectIONKanbanState=O-IntegratION&cpoid=50168985559&iteration=u&rankScope=BACKLOG&rankTo=BOTTOM&typeDef=50169135083"
+
+    def rlus(self, arg):
+        """Goes to Connection Delivery train, and add a user story"""
+        return "https://rally1.rallydev.com/#/50168985559d/detail/userstory/new?Iteration=u&Name=&Project=%2Fproject%2F50168985559&Release=u&c_ConnectIONKanbanState=Backlog&cpoid=50168985559&iteration=u&rankScope=BACKLOG&rankTo=BOTTOM&typeDef=50169135223"
 
     def res(self, arg):
         """Goes to Resolutions"""
