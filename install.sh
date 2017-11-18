@@ -1,24 +1,24 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 FORCE=1
-ENABLE_B1=0
+ENABLE_B1=1
 ENABLE_DOTFILES=0
-ENABLE_NATIVEFIED_APPS=0
-ENABLE_TMUX=1
-ENABLE_VIM=1
+ENABLE_NATIVEFIED_APPS=1
+ENABLE_TMUX=0
+ENABLE_VIM=0
 for i; do
     if [ "$i" == '--force' ]; then
         FORCE=0
-    elif [ "$i" == '--disable-b1' ]; then
-        ENABLE_B1=1
+    elif [ "$i" == '--enable-b1' ]; then
+        ENABLE_B1=0
     elif [ "$i" == '--disable-dotfiles' ]; then
         ENABLE_DOTFILES=1
-    elif [ "$i" == '--disable-nativefied-apps' ]; then
-        ENABLE_NATIVEFIED_APPS=1
-    elif [ "$i" == '--enable-tmux' ]; then
-        ENABLE_TMUX=0
-    elif [ "$i" == '--enable-vim' ]; then
-        ENABLE_VIM=0
+    elif [ "$i" == '--enable-nativefied-apps' ]; then
+        ENABLE_NATIVEFIED_APPS=0
+    elif [ "$i" == '--disable-tmux' ]; then
+        ENABLE_TMUX=1
+    elif [ "$i" == '--disable-vim' ]; then
+        ENABLE_VIM=1
     fi
 done
 
