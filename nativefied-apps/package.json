@@ -2,7 +2,7 @@
   "name": "nativefier-apps-builder",
   "private": true,
   "scripts": {
-    "nativeify": "nativefier --verbose --electron-version 1.4.15",
+    "nativeify": "nativefier --verbose --electron-version 1.7.9",
     "gmail": "npm run nativeify -- --counter gmail.com",
     "messenger": "npm run nativeify -- messenger.com",
     "outlook": "npm run nativeify -- --name Outlook https://outlook.office.com/owa/?realm=iontrading.com",
@@ -11,6 +11,6 @@
     "resolutions": "npm run resolutions-download-icon && npm run resolutions-generate-png && npm run nativeify -- --name Resolutions --icon resolutions.png https://iamfirecracker.github.io/resolutions"
   },
   "devDependencies": {
-    "nativefier": "^7.4.0"
+    "nativefier": "^7.5.1"
   }
 }
