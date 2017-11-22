@@ -8,8 +8,9 @@ end
 
 Vagrant.configure(2) do |config|
     config.vm.box = "ubuntu/xenial64"
+    config.vm.hostname = "dabox"
     config.vm.box_check_update = false
-    config.vm.network 'private_network', ip: "192.168.33.10"
+    config.vm.network 'private_network', ip: "33.33.33.10"
     config.ssh.forward_agent = true
 
     ## Synced folders
@@ -55,6 +56,7 @@ Vagrant.configure(2) do |config|
             automake \
             ack-grep \
             bash-completion \
+            docker.io \
             cmake \
             cowsay \
             exuberant-ctags \
@@ -67,14 +69,24 @@ Vagrant.configure(2) do |config|
             pkg-config \
             python-setuptools \
             subversion \
+            tmuxinator \
             tree \
             unzip
+
+        sudo usermod -aG docker $(whoami)
 
         sudo -H easy_install \
             pip
 
         sudo -H pip install --upgrade \
             virtualenv
+
+        # Java
+        (
+            sudo add-apt-repository -y ppa:webupd8team/java
+            sudo apt-get update
+            sudo apt-get install -y oracle-java8-installer maven
+        )
 
         # Node
         (
