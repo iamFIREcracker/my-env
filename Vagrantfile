@@ -14,8 +14,8 @@ Vagrant.configure(2) do |config|
     config.ssh.forward_agent = true
 
     ## Synced folders
-    config.vm.synced_folder ".", "/vagrant", nfs: true
-    config.vm.synced_folder "public", "/public", nfs: true
+    config.vm.synced_folder ".", "/vagrant"
+    config.vm.synced_folder "public", "/public"
 
     config.vm.provider :virtualbox do |vb|
         # vb.gui = true
@@ -26,7 +26,39 @@ Vagrant.configure(2) do |config|
         vb.customize ["modifyvm", :id, "--ioapic", "on"]
         vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
         vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+
+        # Extra disk
+        file_to_disk = 'connection.vdi'
+        unless File.exist?(file_to_disk)
+            vb.customize ['createhd', '--filename', file_to_disk, '--size', 20 * 1024]
+        end
+        vb.customize ['storageattach', :id, '--storagectl', 'SCSI', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', file_to_disk]
     end
+
+    # Create extra disk partition
+    config.vm.provision "shell", privileged: true, inline: <<-SHELL
+        # Feed commands to fdisk:
+        # n - new partition
+        # p - primary partition
+        # 1 - partition number
+        #   - default first sector
+        #   - default last sector
+        # w - write changes
+        fdisk -u /dev/sdb <<EOF
+n
+p
+1
+
+
+w
+EOF
+         mkfs.ext4 /dev/sdb1
+         echo "/dev/sdb1	/data	ext4	defaults	0 0 " >> /etc/fstab
+         mkdir -p /data
+         mount -a
+         chown -R :ubuntu /data
+         chmod -R g+rw /data
+     SHELL
 
     # Ssh keys
     config.vm.provision "file",
@@ -68,6 +100,7 @@ Vagrant.configure(2) do |config|
             moreutils \
             pkg-config \
             python-setuptools \
+            silversearcher-ag \
             subversion \
             tmuxinator \
             tree \
