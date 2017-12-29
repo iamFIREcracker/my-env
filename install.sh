@@ -1,24 +1,25 @@
 #!/usr/bin/env bash
 
-FORCE=1
-ENABLE_B1=1
-ENABLE_DOTFILES=0
-ENABLE_NATIVEFIED_APPS=1
-ENABLE_TMUX=0
-ENABLE_VIM=0
+FORCE=0
+ENABLE_B1=0
+ENABLE_DOTFILES=1
+ENABLE_NATIVEFIED_APPS=0
+ENABLE_TMUX=1
+ENABLE_VIM=1
+
 for i; do
     if [ "$i" == '--force' ]; then
-        FORCE=0
+        FORCE=1
     elif [ "$i" == '--enable-b1' ]; then
-        ENABLE_B1=0
+        ENABLE_B1=1
     elif [ "$i" == '--disable-dotfiles' ]; then
-        ENABLE_DOTFILES=1
+        ENABLE_DOTFILES=0
     elif [ "$i" == '--enable-nativefied-apps' ]; then
-        ENABLE_NATIVEFIED_APPS=0
+        ENABLE_NATIVEFIED_APPS=1
     elif [ "$i" == '--disable-tmux' ]; then
-        ENABLE_TMUX=1
+        ENABLE_TMUX=0
     elif [ "$i" == '--disable-vim' ]; then
-        ENABLE_VIM=1
+        ENABLE_VIM=0
     fi
 done
 
@@ -29,7 +30,7 @@ set -e
 set -x
 
 function ensure_link {
-    test $FORCE -eq 0 && remove "$HOME/$2"
+    test $FORCE -eq 1 && remove "$HOME/$2"
     test -L "$HOME/$2" || create_link "$WORKDIR/$1" "$HOME/$2"
 }
 
@@ -44,9 +45,9 @@ function remove {
 }
 
 (
-    if [ $ENABLE_B1 -eq 0 ]; then
+    if [ $ENABLE_B1 -eq 1 ]; then
         cd opt/bunny1
-        test $FORCE -eq 0 && rm -rf venv
+        test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
             virtualenv venv
         fi
@@ -55,24 +56,24 @@ function remove {
 )
 
 (
-    if [ $ENABLE_DOTFILES -eq 0 ]; then
+    if [ $ENABLE_DOTFILES -eq 1 ]; then
         cd dotfiles
         bash install.sh "$@"
     fi
 )
 
 (
-    if [ $ENABLE_NATIVEFIED_APPS -eq 0 ]; then
+    if [ $ENABLE_NATIVEFIED_APPS -eq 1 ]; then
         cd nativefied-apps/
-        test $FORCE -eq 0 && rm -rf node_modules
+        test $FORCE -eq 1 && rm -rf node_modules
         npm install
     fi
 )
 
 (
-    if [ $ENABLE_TMUX -eq 0 ]; then
+    if [ $ENABLE_TMUX -eq 1 ]; then
         cd opt/tmux
-        test $FORCE -eq 0 && test -f 'tmux' && make clean
+        test $FORCE -eq 1 && test -f 'tmux' && make clean
         if [ ! -f tmux ]; then
             sh autogen.sh
             ./configure 
@@ -83,9 +84,9 @@ function remove {
 )
 
 (
-    if [ $ENABLE_VIM -eq 0 ]; then
+    if [ $ENABLE_VIM -eq 1 ]; then
         cd opt/vim
-        test $FORCE -eq 0 && make clean
+        test $FORCE -eq 1 && make clean
         if [ ! -f vim ]; then
             ./configure \
                     --enable-terminal \
