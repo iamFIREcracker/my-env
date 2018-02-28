@@ -48,6 +48,9 @@ class CustomCommands(bunny1.Bunny1Commands):
         """Goes to connection.iontrading.com db admin"""
         return "https://cpuk1ionhurdb01.iontrading.com"
 
+    def cndb(self, arg):
+        return "https://cpuk1ionhurdb01.iontrading.com/browser"
+
     def cnl(self, arg):
         """Go or search pimatlan01.iontrading.com"""
         if arg:

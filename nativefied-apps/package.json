@@ -2,11 +2,11 @@
   "name": "nativefier-apps-builder",
   "private": true,
   "scripts": {
-    "gmail": "npm run nativeify -- --counter gmail.com",
+    "gmail": "npm run nativeify -- --counter gmail.com --icon gmail.png",
     "jenkins": "npm run nativeify -- --name Jenkins https://jenkdev01.iontrading.com/job/ConnectION",
     "messenger": "npm run nativeify -- messenger.com",
-    "nativeify": "nativefier --verbose --electron-version 1.7.9",
-    "outlook": "npm run nativeify -- --name Outlook https://outlook.office.com/owa/?realm=iontrading.com",
+    "nativeify": "nativefier --verbose --electron-version 1.8.2",
+    "outlook": "npm run nativeify -- --counter --name Outlook --icon outlook.png https://outlook.office.com/owa/?realm=iontrading.com",
     "resolutions-download-icon": "curl -XGET https://iamfirecracker.github.io/resolutions/favicon.svg > resolutions.svg",
     "resolutions-generate-png": "convert -background none resolutions.svg resolutions.png",
     "resolutions": "npm run resolutions-download-icon && npm run resolutions-generate-png && npm run nativeify -- --name Resolutions --icon resolutions.png https://iamfirecracker.github.io/resolutions"
