@@ -17,6 +17,7 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 WheelDown::WheelUp
 WheelUp::WheelDown
 
+
 ; --------------------------------------------------------------
 ; Control as esc
 ; --------------------------------------------------------------
@@ -30,8 +31,6 @@ LShift UP::Send (
 LShift & F13::return
 RShift UP::Send )
 RShift & F13::return
-
-
 
 F15 & Backspace::Reload
 F15 & space::
@@ -48,6 +47,17 @@ F15 & space::
 return
 
 ; --------------------------------------------------------------
+; Vim mode
+; --------------------------------------------------------------
+F14 UP::Send {Tab}
+F14 & h::Send {Left}
+F14 & j::Send {Down}
+F14 & k::Send {Up}
+F14 & l::Send {Right}
+F14 & b::Send ^{Left}
+F14 & w::Send ^{Right}
+
+; --------------------------------------------------------------
 ; Application shortcuts -- my left ctrl has been remapped to F15
 ; --------------------------------------------------------------
 F15 & d::WinActivate ahk_exe WINWORD.EXE
@@ -55,7 +65,7 @@ F15 & h::WinActivate ahk_class mintty_scratchpad
 F15 & i::WinActivate ahk_exe Teams.exe
 F15 & j::WinActivate ahk_class mintty
 F15 & k::WinActivate ahk_exe chrome.exe
-F15 & l::DllCall("LockWorkStation")
+; F15 & l::DllCall("LockWorkStation")
 F15 & m::WinActivate ahk_exe OUTLOOK.EXE
 F15 & n::WinActivate Evernote
 F15 & o::WinActivate ahk_class SpotifyMainWindow
