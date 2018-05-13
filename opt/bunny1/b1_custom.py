@@ -312,8 +312,7 @@ class CustomCommands(bunny1.Bunny1Commands):
 
     def t(self, arg):
         """Search torrents"""
-        # return "https://kickass.unblocked.la/usearch/%s/" % qp(arg)
-        return "http://extratorrent.cc/search/?search=%s" % qp(arg)
+        return "https://thepiratebay.pictures/s/?q=%s" % qp(arg)
 
     def ti(self, arg):
         """Search StackOverflow[titanium] or goes there"""
