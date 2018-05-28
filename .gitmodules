@@ -34,3 +34,6 @@
 [submodule "opt/vlime"]
 	path = opt/vlime
 	url = https://github.com/l04m33/vlime.git
+[submodule "opt/winpty"]
+	path = opt/winpty
+	url = https://github.com/rprichard/winpty.git

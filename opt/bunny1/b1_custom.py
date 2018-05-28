@@ -84,6 +84,10 @@ class CustomCommands(bunny1.Bunny1Commands):
         """Goes to cduk1ionhurdb01.iontrading.com db admin"""
         return "https://cduk1ionhurdb01.iontrading.com"
 
+    def cnlui(self, arg):
+        """Goes to the ConnectION styleguide"""
+        return "http://pimatlanw01.iontrading.com:8080/"
+
     def crontab(self, arg):
         """Opens crontab.guru"""
         if arg:

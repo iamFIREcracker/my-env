@@ -6,6 +6,7 @@ ENABLE_DOTFILES=1
 ENABLE_NATIVEFIED_APPS=0
 ENABLE_TMUX=1
 ENABLE_VIM=1
+ENABLE_WINPTY=0
 
 for i; do
     if [ "$i" == '--force' ]; then
@@ -20,6 +21,8 @@ for i; do
         ENABLE_TMUX=0
     elif [ "$i" == '--disable-vim' ]; then
         ENABLE_VIM=0
+    elif [ "$i" == '--enable-winpty' ]; then
+        ENABLE_WINPTY=1
     fi
 done
 
@@ -101,6 +104,17 @@ function remove {
                     --prefix=/usr
             make
             sudo make install
+        fi
+    fi
+)
+
+(
+    if [ $ENABLE_WINPTY -eq 1 ]; then
+        cd opt/winpty
+        test $FORCE -eq 1 && make clean
+        if [ ! -f build/winpty.exe ]; then
+            ./configure
+            make
         fi
     fi
 )
