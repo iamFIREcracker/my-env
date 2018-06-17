@@ -37,3 +37,6 @@
 [submodule "opt/winpty"]
 	path = opt/winpty
 	url = https://github.com/rprichard/winpty.git
+[submodule "opt/br"]
+	path = opt/br
+	url = git@github.com:iamFIREcracker/br.git
