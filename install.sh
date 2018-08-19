@@ -2,6 +2,7 @@
 
 FORCE=0
 ENABLE_B1=0
+ENABLE_GOOBOOK=0
 ENABLE_DOTFILES=1
 ENABLE_NATIVEFIED_APPS=0
 ENABLE_TMUX=1
@@ -13,6 +14,8 @@ for i; do
         FORCE=1
     elif [ "$i" == '--enable-b1' ]; then
         ENABLE_B1=1
+    elif [ "$i" == '--enable-goobook' ]; then
+        ENABLE_GOOBOOK=1
     elif [ "$i" == '--disable-dotfiles' ]; then
         ENABLE_DOTFILES=0
     elif [ "$i" == '--enable-nativefied-apps' ]; then
@@ -50,6 +53,17 @@ function remove {
 (
     if [ $ENABLE_B1 -eq 1 ]; then
         cd opt/bunny1
+        test $FORCE -eq 1 && rm -rf venv
+        if [ ! -d venv ]; then
+            virtualenv venv
+        fi
+        venv/bin/pip install -r requirements.txt
+    fi
+)
+
+(
+    if [ $ENABLE_GOOBOOK -eq 1 ]; then
+        cd opt/goobook
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
             virtualenv venv

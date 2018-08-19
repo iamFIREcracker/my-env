@@ -40,3 +40,9 @@
 [submodule "opt/br"]
 	path = opt/br
 	url = git@github.com:iamFIREcracker/br.git
+[submodule "opt/offlineimap"]
+	path = opt/offlineimap
+	url = https://github.com/OfflineIMAP/offlineimap.git
+[submodule "opt/mutt-notmuch-py"]
+	path = opt/mutt-notmuch-py
+	url = https://github.com/honza/mutt-notmuch-py.git
