@@ -45,4 +45,4 @@
 	url = https://github.com/OfflineIMAP/offlineimap.git
 [submodule "opt/mutt-notmuch-py"]
 	path = opt/mutt-notmuch-py
-	url = https://github.com/honza/mutt-notmuch-py.git
+	url = git@github.com:iamFIREcracker/mutt-notmuch-py.git
