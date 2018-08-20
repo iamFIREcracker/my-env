@@ -5,6 +5,7 @@ ENABLE_B1=0
 ENABLE_GOOBOOK=0
 ENABLE_DOTFILES=1
 ENABLE_NATIVEFIED_APPS=0
+ENABLE_OFFLINEIMAP=1
 ENABLE_TMUX=1
 ENABLE_URLVIEW=1
 ENABLE_VIM=1
@@ -21,6 +22,8 @@ for i; do
         ENABLE_DOTFILES=0
     elif [ "$i" == '--enable-nativefied-apps' ]; then
         ENABLE_NATIVEFIED_APPS=1
+    elif [ "$i" == '--disable-offlineimap' ]; then
+        ENABLE_OFFLINEIMAP=0
     elif [ "$i" == '--disable-tmux' ]; then
         ENABLE_TMUX=0
     elif [ "$i" == '--disable-urlview' ]; then
@@ -87,6 +90,18 @@ function remove {
         cd nativefied-apps/
         test $FORCE -eq 1 && rm -rf node_modules
         npm install
+    fi
+)
+
+(
+    if [ $ENABLE_OFFLINEIMAP -eq 1 ]; then
+        cd opt/offlineimap
+        test $FORCE -eq 1 && test -d 'venv' && rm -rf venv
+        if [ ! -d venv ]; then
+            virtualenv venv
+            venv/bin/pip install -r requirements.txt
+            make
+        fi
     fi
 )
 
