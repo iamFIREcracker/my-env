@@ -62,8 +62,8 @@ function remove {
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
             virtualenv venv
+            venv/bin/pip install -r requirements.txt
         fi
-        venv/bin/pip install -r requirements.txt
     fi
 )
 
@@ -73,8 +73,8 @@ function remove {
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
             virtualenv venv
+            venv/bin/pip install -r requirements.txt
         fi
-        venv/bin/pip install -r requirements.txt
     fi
 )
 
