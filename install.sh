@@ -6,6 +6,7 @@ ENABLE_GOOBOOK=0
 ENABLE_DOTFILES=1
 ENABLE_NATIVEFIED_APPS=0
 ENABLE_TMUX=1
+ENABLE_URLVIEW=1
 ENABLE_VIM=1
 ENABLE_WINPTY=0
 
@@ -22,6 +23,8 @@ for i; do
         ENABLE_NATIVEFIED_APPS=1
     elif [ "$i" == '--disable-tmux' ]; then
         ENABLE_TMUX=0
+    elif [ "$i" == '--disable-urlview' ]; then
+        ENABLE_URLVIEW=0
     elif [ "$i" == '--disable-vim' ]; then
         ENABLE_VIM=0
     elif [ "$i" == '--enable-winpty' ]; then
@@ -96,6 +99,18 @@ function remove {
             ./configure 
             make
             sudo make install
+        fi
+    fi
+)
+
+(
+    if [ $ENABLE_URLVIEW -eq 1 ]; then
+        cd opt/urlview
+        test $FORCE -eq 1 && test -f 'urlview' && make clean
+        if [ ! -f urlview -a ! -f urlview.exe ]; then
+            autoreconf -vfi # https://github.com/sigpipe/urlview/issues/7
+            ./configure
+            make
         fi
     fi
 )

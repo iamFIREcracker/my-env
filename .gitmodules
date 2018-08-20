@@ -46,3 +46,6 @@
 [submodule "opt/mutt-notmuch-py"]
 	path = opt/mutt-notmuch-py
 	url = git@github.com:iamFIREcracker/mutt-notmuch-py.git
+[submodule "opt/urlview"]
+	path = opt/urlview
+	url = https://github.com/sigpipe/urlview.git
