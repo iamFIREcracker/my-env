@@ -2,8 +2,9 @@
 
 FORCE=0
 ENABLE_B1=0
-ENABLE_GOOBOOK=0
 ENABLE_DOTFILES=1
+ENABLE_GOOBOOK=0
+ENABLE_KEYRING=1
 ENABLE_NATIVEFIED_APPS=0
 ENABLE_OFFLINEIMAP=1
 ENABLE_TMUX=1
@@ -16,10 +17,12 @@ for i; do
         FORCE=1
     elif [ "$i" == '--enable-b1' ]; then
         ENABLE_B1=1
-    elif [ "$i" == '--enable-goobook' ]; then
-        ENABLE_GOOBOOK=1
     elif [ "$i" == '--disable-dotfiles' ]; then
         ENABLE_DOTFILES=0
+    elif [ "$i" == '--enable-goobook' ]; then
+        ENABLE_GOOBOOK=1
+    elif [ "$i" == '--disable-keyring' ]; then
+        ENABLE_KEYRING=0
     elif [ "$i" == '--enable-nativefied-apps' ]; then
         ENABLE_NATIVEFIED_APPS=1
     elif [ "$i" == '--disable-offlineimap' ]; then
@@ -36,6 +39,7 @@ for i; do
 done
 
 WORKDIR="$(pwd)"
+OS_WIN=$(uname -s | grep CYGWIN)
 
 set -u
 set -e
@@ -68,6 +72,13 @@ function remove {
 )
 
 (
+    if [ $ENABLE_DOTFILES -eq 1 ]; then
+        cd dotfiles
+        bash install.sh "$@"
+    fi
+)
+
+(
     if [ $ENABLE_GOOBOOK -eq 1 ]; then
         cd opt/goobook
         test $FORCE -eq 1 && rm -rf venv
@@ -79,9 +90,18 @@ function remove {
 )
 
 (
-    if [ $ENABLE_DOTFILES -eq 1 ]; then
-        cd dotfiles
-        bash install.sh "$@"
+    if [ $ENABLE_KEYRING -eq 1 ]; then
+        cd opt/goobook
+        test $FORCE -eq 1 && rm -rf venv
+        if [ ! -d venv ]; then
+            if [ -z "$OS_WIN" ]; then
+                $(cygpath -u C:\\Python27\\Scripts\\virtualenv) venv
+                $(cygpath -u C:\\Python27\\Scripts\\pip) install -r requirements.txt
+            else
+                virtualenv venv
+                venv/bin/pip install -r requirements.txt
+            fi
+        fi
     fi
 )
 

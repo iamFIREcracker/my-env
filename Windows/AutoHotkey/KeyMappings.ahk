@@ -64,11 +64,14 @@ F15 & d::WinActivate ahk_exe WINWORD.EXE
 F15 & h::WinActivate ahk_class mintty_scratchpad
 F15 & i::WinActivate ahk_exe Teams.exe
 F15 & j::WinActivate ahk_class mintty
-F15 & k::WinActivate ahk_exe chrome.exe
+F15 & k::WinActivateBottom ahk_exe chrome.exe
 ; F15 & l::DllCall("LockWorkStation")
 F15 & m::WinActivate ahk_exe OUTLOOK.EXE
 F15 & n::WinActivate Evernote
-F15 & o::WinActivate ahk_class SpotifyMainWindow
+; WinActivate does not work with spotify.exe anymore; the window is 
+; focused but then pressing <space> does not triggere Play/Pause as
+; expected.  Why would WinActivateBottom work instead?  No idea..
+F15 & o::WinActivateBottom ahk_exe spotify.exe
 F15 & p::WinActivate ahk_class tSkMainForm ;Skype
 F15 & u::WinActivate ahk_exe idea64.exe
 F15 & Up::Send {Volume_Up} 
@@ -146,7 +149,7 @@ ResizePct(x_offset_pct, y_offset_pct, width_pct, height_pct)
 ; -------------------
 #IfWinActive Chrome
     ^h::Send {Backspace}
-    ^w::Send !{Backspace}
+    ^w::Send ^{Backspace}
     ^k::Send +{End}{Backspace}
 
 #IfWinActive Intellij

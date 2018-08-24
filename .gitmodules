@@ -49,3 +49,6 @@
 [submodule "opt/urlview"]
 	path = opt/urlview
 	url = https://github.com/sigpipe/urlview.git
+[submodule "opt/urlscan"]
+	path = opt/urlscan
+	url = https://github.com/firecat53/urlscan.git
