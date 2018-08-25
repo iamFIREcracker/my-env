@@ -66,7 +66,7 @@ function remove {
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
             virtualenv venv
-            venv/bin/pip install -r requirements.txt
+            venv-pip install -r requirements.txt
         fi
     fi
 )
@@ -84,23 +84,18 @@ function remove {
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
             virtualenv venv
-            venv/bin/pip install -r requirements.txt
+            venv-pip install -r requirements.txt
         fi
     fi
 )
 
 (
     if [ $ENABLE_KEYRING -eq 1 ]; then
-        cd opt/goobook
+        cd opt/keyring
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
-            if [ -z "$OS_WIN" ]; then
-                $(cygpath -u C:\\Python27\\Scripts\\virtualenv) venv
-                $(cygpath -u C:\\Python27\\Scripts\\pip) install -r requirements.txt
-            else
-                virtualenv venv
-                venv/bin/pip install -r requirements.txt
-            fi
+            virtualenvw venv
+            venv-pip install -r requirements.txt
         fi
     fi
 )
@@ -118,9 +113,11 @@ function remove {
         cd opt/offlineimap
         test $FORCE -eq 1 && test -d 'venv' && rm -rf venv
         if [ ! -d venv ]; then
-            virtualenv venv
-            venv/bin/pip install -r requirements.txt
+            virtualenvw venv
+            venv-pip install -r requirements.txt
+            make clean
             make
+            mkdir -p ~/.mail
         fi
     fi
 )
