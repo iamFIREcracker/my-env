@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 FORCE=0
+ENABLE_AADBOOK=0
 ENABLE_B1=0
 ENABLE_DOTFILES=1
 ENABLE_GOOBOOK=0
@@ -15,6 +16,8 @@ ENABLE_WINPTY=0
 for i; do
     if [ "$i" == '--force' ]; then
         FORCE=1
+    elif [ "$i" == '--enable-aadbook' ]; then
+        ENABLE_AADBOOK=1
     elif [ "$i" == '--enable-b1' ]; then
         ENABLE_B1=1
     elif [ "$i" == '--disable-dotfiles' ]; then
@@ -59,6 +62,17 @@ function remove {
     echo "R $1"
     rm -rf "$1"
 }
+
+(
+    if [ $ENABLE_AADBOOK -eq 1 ]; then
+        cd opt/aadbook
+        test $FORCE -eq 1 && rm -rf venv
+        if [ ! -d venv ]; then
+            virtualenvw venv
+            venv-python setup.py develop
+        fi
+    fi
+)
 
 (
     if [ $ENABLE_B1 -eq 1 ]; then

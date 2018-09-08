@@ -52,3 +52,6 @@
 [submodule "opt/urlscan"]
 	path = opt/urlscan
 	url = https://github.com/firecat53/urlscan.git
+[submodule "opt/aadbook"]
+	path = opt/aadbook
+	url = git@github.com:iamFIREcracker/aadbook.git
