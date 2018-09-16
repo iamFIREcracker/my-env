@@ -11,6 +11,10 @@ from bunny1 import dont_expose
 
 
 class CustomCommands(bunny1.Bunny1Commands):
+    def aruba(self, arg):
+        """Goes to the Aruba-manage-hosts page"""
+        return "https://managehosting.aruba.it"
+
     def bb(self, arg):
         """Go to Bitbucket"""
         return "https://bitbucket.org/"
@@ -118,14 +122,7 @@ class CustomCommands(bunny1.Bunny1Commands):
     def fb(self, arg):
         """Search www.facebook.com or go there"""
         if arg:
-            return "http://www.facebook.com/s.php?q=%s&init=q" % qp(arg)
-        else:
-            return "http://www.facebook.com/"
-
-    def fbb(self, arg):
-        """Search mbasic.facebook.com or go there"""
-        if arg:
-            return "https://mbasic.facebook.com/search/?query=%s" % qp(arg)
+            return "https://mbasic.facebook.com/search/top/?q=%s&refid=8&_rdr" % qp(arg)
         else:
             return "https://mbasic.facebook.com/"
 
@@ -163,6 +160,10 @@ class CustomCommands(bunny1.Bunny1Commands):
             return "http://idios.thefreedictionary.com/%s" % qp(arg)
         else:
             return "http://idios.thefreedictionary.com/"
+
+    def ig(self, arg):
+        """Go to www.instagram.com"""
+        return "https://www.instagram.com/"
 
     def im(self, arg):
         """Searches Google Images or goes there"""
