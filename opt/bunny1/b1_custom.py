@@ -9,8 +9,13 @@ from bunny1 import qp
 from bunny1 import expose
 from bunny1 import dont_expose
 
+try:
+    from b1_local import LocalCustomCommands
+except:
+    LocalCustomCommands = object
 
-class CustomCommands(bunny1.Bunny1Commands):
+
+class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
     def aruba(self, arg):
         """Goes to the Aruba-manage-hosts page"""
         return "https://managehosting.aruba.it"
@@ -19,78 +24,12 @@ class CustomCommands(bunny1.Bunny1Commands):
         """Go to Bitbucket"""
         return "https://bitbucket.org/"
 
-    def co(self, arg):
-        """Go or search confluence.iontrading.com"""
-        if arg:
-            return "https://confluence.iontrading.com/dosearchsite.action?spaceSearch=false&queryString=%s" % qp(arg)
-        else:
-            return "https://confluence.iontrading.com/"
-
-    def coionweb(self, arg):
-        """Go to the ion.web confluence page"""
-        return "https://confluence.iontrading.com/display/RD/HTML5+-+Programming+reference"
-
     def cb(self, arg):
         """Go to Crunchbase, or search for a specific organization"""
         if arg:
             return "https://www.crunchbase.com/organization/%s" % qp(arg)
         else:
             return "https://www.crunchbase.com"
-
-    def cn(self, arg):
-        """Goes or search connection.iontrading.com"""
-        if arg:
-            return "https://connect.iongroup.com/#/search/people?query=%s" % qp(arg)
-        else:
-            return "https://connect.iongroup.com"
-
-    def cnadmin(self, arg):
-        """Goes to connection admin UI"""
-        return "https://connect.iongroup.com/admin/"
-
-    def cndb(self, arg):
-        """Goes to connection.iontrading.com db admin"""
-        return "https://cpuk1ionhurdb01.iontrading.com"
-
-    def cndb(self, arg):
-        return "https://cpuk1ionhurdb01.iontrading.com/browser"
-
-    def cnl(self, arg):
-        """Go or search pimatlan01.iontrading.com"""
-        if arg:
-            return "http://pimatlanw01.iontrading.com:9001/#/search/people?query=%s" % qp(arg)
-        else:
-            return "http://pimatlanw01.iontrading.com:9001/"
-
-    def cnldb(self, arg):
-        """Goes to pimatlanw01.iontrading.com db admin"""
-        return "http://pimatlanw01.iontrading.com:7474"
-
-    def cnuat(self, arg):
-        """Goes or search uat-connection.iontrading.com"""
-        if arg:
-            return "https://uat-connection.iontrading.com/#/search/people?query=%s" % qp(arg)
-        else:
-            return "https://uat-connection.iontrading.com"
-
-    def cnuatdb(self, arg):
-        """Goes to cuuk1ionhurdb01.iontrading.com db admin"""
-        return "https://cuuk1ionhurdb01.iontrading.com"
-
-    def cnint(self, arg):
-        """Goes or search int-connection.iontrading.com"""
-        if arg:
-            return "https://int-connection.iontrading.com/#/search/people?query=%s" % qp(arg)
-        else:
-            return "https://int-connection.iontrading.com"
-
-    def cnintdb(self, arg):
-        """Goes to cduk1ionhurdb01.iontrading.com db admin"""
-        return "https://cduk1ionhurdb01.iontrading.com"
-
-    def cnlui(self, arg):
-        """Goes to the ConnectION styleguide"""
-        return "http://pimatlanw01.iontrading.com:8080/"
 
     def crontab(self, arg):
         """Opens crontab.guru"""
@@ -100,7 +39,7 @@ class CustomCommands(bunny1.Bunny1Commands):
             return "https://crontab.guru"
 
     def domain(self, arg):
-        """Search www.facebook.com or go there"""
+        """Search www.dotster.com or go there"""
         if arg:
             return "https://www.dotster.com/register/domains/?dom_lookup=%s" % qp(arg)
         else:
@@ -143,17 +82,6 @@ class CustomCommands(bunny1.Bunny1Commands):
         """Go to G+"""
         return "https://plus.google.com"
 
-    def hd(self, arg):
-        """Go on the JIRA helpdesk portal"""
-        return "https://jira.iontrading.com/servicedesk/customer/portals"
-
-    def hdconn(self, arg):
-        """Go to https://jira.iontrading.com/browse/HDCONN, or a specific ticket"""
-        if arg:
-            return "https://jira.iontrading.com/browse/HDCONN-%s" % qp(arg)
-        else:
-            return "https://jira.iontrading.com/browse/HDCONN"
-
     def id(self, arg):
         """Search idioms"""
         if arg:
@@ -172,33 +100,6 @@ class CustomCommands(bunny1.Bunny1Commands):
         else:
             return "https://www.google.com/search?site=imghp&tbm=isch"
 
-    def jk(self, arg):
-        """Goes to Jenkins"""
-        return "https://jenkdev01.iontrading.com/job/ConnectION/"
-
-    def jr(self, arg):
-        """Go or search jira.iontrading.com"""
-        if arg and arg == 'qst':
-            return "https://jira.iontrading.com/secure/RapidBoard.jspa?rapidView=620"
-        if arg:
-            return "https://jira.iontrading.com/browse/%s" % qp(arg)
-        else:
-            return "https://jira.iontrading.com"
-
-    def jrtest(self, arg):
-        """Go or search is-jirasupport-test.iontrading.com"""
-        if arg:
-            return "https://is-jirasupport-test.iontrading.com/browse/%s" % qp(arg)
-        else:
-            return "https://is-jirasupport-test.iontrading.com"
-
-    def jrtpttest(self, arg):
-        """Go or search https://portal.tpt.com/devjira2"""
-        if arg:
-            return "https://portal.tpt.com/devjira2/browse/%s" % qp(arg)
-        else:
-            return "https://portal.tpt.com/devjira2"
-
     def js(self, arg):
         """Search StackOverflow[Javascript] or goes there"""
         return self.so('[javascript] ' + arg)
@@ -209,13 +110,10 @@ class CustomCommands(bunny1.Bunny1Commands):
             return "http://localhost:%s" % qp(arg)
         else:
             return "http://localhost"
+
     def m(self, arg):
         """Goes to Google Music"""
         return "https://play.google.com/music/listen"
-
-    def menu(self, arg):
-        """Open lunch menu"""
-        return "https://iontradingcom-my.sharepoint.com/personal/andrea_cicalese_iongroup_com/_layouts/15/WopiFrame.aspx?sourcedoc=%7BF83D26BC-45DC-418E-9B97-810F804ED976%7D&file=Critical%20Meeting.xlsx&action=edit"
 
     def my(self, arg):
         """Goes to personal my-env github repo"""
@@ -233,63 +131,9 @@ class CustomCommands(bunny1.Bunny1Commands):
         """Show Netflix titles by subtitle"""
         return "https://www.netflix.com/subtitles"
 
-    def nx49(self, arg):
-        """Goes or search lab49's nexus"""
-        return "https://software-repository.lab49.com/nexus/"
-
-    def nxp(self, arg):
-        """Go or search pinexus01"""
-        if arg:
-            return "http://pinexus01.iontrading.com:8081/nexus/#nexus-search;quick~%s" % qp(arg)
-        else:
-            return "http://pinexus01.iontrading.com:8081/nexus/#welcome"
-
-    def nxu(self, arg):
-        """Go or search usnexus01"""
-        if arg:
-            return "http://usnexus01.iontrading.com:8081/nexus/#nexus-search;quick~%s" % qp(arg)
-        else:
-            return "http://usnexus01.iontrading.com:8081/nexus/#welcome"
-
-    def nxa(self, arg):
-        """Go or search axton's nexus"""
-        if arg:
-            return "http://axton.fssnet.internal:8081/#nexus-search;quick~%s" % qp(arg)
-        else:
-            return "http://axton.fssnet.internal:8081/#welcome"
-
-    def p(self, arg):
-        """Goes to pimatlanw01[:arg]"""
-        if arg:
-            return "http://pimatlanw01:%s" % qp(arg)
-        else:
-            return "http://pimatlanw01"
-
-    def rl(self, arg):
-        """Goes to Connection Delivery train"""
-        if arg:
-            return "https://rally1.rallydev.com/#/50168985559d/search?keywords=%s" % qp(arg)
-        else:
-            return "https://rally1.rallydev.com/#/50168985559d/custom/50509556258"
-
-    def rlde(self, arg):
-        """Goes to Connection Delivery train, and add defect"""
-        return "https://rally1.rallydev.com/#/50168985559d/detail/defect/new?Iteration=u&Name=&Project=%2Fproject%2F50168985559&Release=u&c_ConnectIONKanbanState=O-IntegratION&cpoid=50168985559&iteration=u&rankScope=BACKLOG&rankTo=BOTTOM&typeDef=50169135083"
-
-    def rlus(self, arg):
-        """Goes to Connection Delivery train, and add a user story"""
-        return "https://rally1.rallydev.com/#/50168985559d/detail/userstory/new?Iteration=u&Name=&Project=%2Fproject%2F50168985559&Release=u&c_ConnectIONKanbanState=Backlog&cpoid=50168985559&iteration=u&rankScope=BACKLOG&rankTo=BOTTOM&typeDef=50169135223"
-
     def res(self, arg):
         """Goes to Resolutions"""
         return "https://iamfirecracker.github.io/resolutions"
-
-    def rfdoc(self, arg):
-        """Goes or searches inside robotframework.org"""
-        if arg:
-            return self.g('site:robotframework.org ' + arg)
-        else:
-            return 'http://robotframework.org'
 
     def rxjs(self, arg):
         """Show rxjs documentation"""
@@ -306,11 +150,6 @@ class CustomCommands(bunny1.Bunny1Commands):
         """Goes to settleup.info"""
         return "http://www.settleup.info/?web"
 
-    def slackbot(self, arg):
-        """Goes to slackbot configuration page;
-        possible values 'strappo', 'xoms', 'tinyapp'"""
-        return "https://%s.slack.com/customize/slackbot" % qp(arg)
-
     def sub(self, arg):
         """Search english subtitles on Google"""
         return self.g(arg + ' english subtitles')
@@ -319,26 +158,12 @@ class CustomCommands(bunny1.Bunny1Commands):
         """Search torrents"""
         return "https://thepiratebay.pictures/s/?q=%s" % qp(arg)
 
-    def ti(self, arg):
-        """Search StackOverflow[titanium] or goes there"""
-        if arg:
-            return self.so('[titanium] ' + arg)
-        else:
-            return "http://docs.appcelerator.com/titanium/latest/#!/api"
-
     def tv(self, arg):
         """Goes to or search tvshowtime"""
         if arg:
             return "https://www.tvshowtime.com/search?q=%s" % qp(arg)
         else:
             return "https://www.tvshowtime.com"
-
-    def ym(self, arg):
-        """Goes or search yammer"""
-        if arg:
-            return "https://www.yammer.com/iontrading.com/#/Threads/Search?search=%s" % qp(arg)
-        else:
-            return "https://www.yammer.com/iontrading.com/#/home"
 
     def zippyshare(self, arg):
         """Goes to Zippyshare -- it does not support GET searches :-("""
