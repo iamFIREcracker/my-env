@@ -78,6 +78,21 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
         """Go to the Google developer console"""
         return 'https://console.developers.google.com/project'
 
+    def gh(self, arg):
+        """Goes or searches github.com"""
+        if arg:
+            return "https://github.com/search?q=%s" % qp(arg)
+        else:
+            return "https://github.com/iamFIREcracker"
+
+    def ghmyenv(self, arg):
+        """Goes to personal my-env github repo"""
+        return "https://github.com/iamFIREcracker/my-env"
+
+    def ghdot(self, arg):
+        """Goes to personal dotfiles github repo"""
+        return "https://github.com/iamFIREcracker/dotfiles"
+
     def gp(self, arg):
         """Go to G+"""
         return "https://plus.google.com"
@@ -115,13 +130,9 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
         """Goes to Google Music"""
         return "https://play.google.com/music/listen"
 
-    def my(self, arg):
-        """Goes to personal my-env github repo"""
-        return "https://github.com/iamFIREcracker/my-env"
-
-    def mydot(self, arg):
-        """Goes to personal dotfiles github repo"""
-        return "https://github.com/iamFIREcracker/dotfiles"
+    def ml(self, arg):
+        """Goes to matteolandi.net"""
+        return "https://matteolandi.net"
 
     def nf(self, arg):
         """Go to netflix"""
