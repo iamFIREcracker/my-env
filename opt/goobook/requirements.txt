@@ -1,9 +1,0 @@
-gdata==2.0.18
-goobook==1.9
-httplib2==0.11.3
-oauth2client==4.1.2
-pyasn1==0.4.4
-pyasn1-modules==0.2.2
-rsa==3.4.2
-simplejson==3.16.0
-six==1.11.0

@@ -97,8 +97,8 @@ function remove {
         cd opt/goobook
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
-            virtualenv venv
-            venv-pip install -r requirements.txt
+            virtualenvw venv --python=python3
+            venv-python setup.py develop
         fi
     fi
 )

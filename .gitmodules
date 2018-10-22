@@ -52,3 +52,6 @@
 [submodule "opt/aadbook"]
 	path = opt/aadbook
 	url = git@github.com:iamFIREcracker/aadbook.git
+[submodule "opt/goobook"]
+	path = opt/goobook
+	url = git@gitlab.com:iamFIREcracker/goobook.git
