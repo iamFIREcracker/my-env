@@ -167,7 +167,7 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
 
     def t(self, arg):
         """Search torrents"""
-        return "https://thepiratebay.pictures/s/?q=%s" % qp(arg)
+        return "https://proxyonetpb.pet/s/?q=%s" % qp(arg)
 
     def tv(self, arg):
         """Goes to or search tvshowtime"""
