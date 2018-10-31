@@ -8,6 +8,7 @@ ENABLE_GOOBOOK=0
 ENABLE_KEYRING=1
 ENABLE_NATIVEFIED_APPS=0
 ENABLE_OFFLINEIMAP=1
+ENABLE_TLS=1
 ENABLE_TMUX=1
 ENABLE_URLVIEW=1
 ENABLE_VIM=1
@@ -30,6 +31,8 @@ for i; do
         ENABLE_NATIVEFIED_APPS=1
     elif [ "$i" == '--disable-offlineimap' ]; then
         ENABLE_OFFLINEIMAP=0
+    elif [ "$i" == '--disable-tls' ]; then
+        ENABLE_TLS=0
     elif [ "$i" == '--disable-tmux' ]; then
         ENABLE_TMUX=0
     elif [ "$i" == '--disable-urlview' ]; then
@@ -132,6 +135,16 @@ function remove {
             make clean
             make
             mkdir -p ~/.mail
+        fi
+    fi
+)
+
+(
+    if [ $ENABLE_TLS -eq 1 ]; then
+        cd opt/typescript-language-server
+        test $FORCE -eq 1 && test -d node_modules && rm -rf node_modules
+        if [ ! -d node_modules ]; then
+            npm install
         fi
     fi
 )
