@@ -17,6 +17,32 @@ ENABLE_WINPTY=0
 for i; do
     if [ "$i" == '--force' ]; then
         FORCE=1
+    elif [ "$i" == '--os-mac' ]; then
+      ENABLE_AADBOOK=1
+      ENABLE_B1=1
+      ENABLE_DOTFILES=1
+      ENABLE_GOOBOOK=1
+      ENABLE_KEYRING=1
+      ENABLE_NATIVEFIED_APPS=0
+      ENABLE_OFFLINEIMAP=1
+      ENABLE_TLS=1
+      ENABLE_TMUX=0
+      ENABLE_URLVIEW=1
+      ENABLE_VIM=0
+      ENABLE_WINPTY=0
+    elif [ "$i" == '--os-win' ]; then
+      ENABLE_AADBOOK=1
+      ENABLE_B1=1
+      ENABLE_DOTFILES=1
+      ENABLE_GOOBOOK=1
+      ENABLE_KEYRING=1
+      ENABLE_NATIVEFIED_APPS=0
+      ENABLE_OFFLINEIMAP=1
+      ENABLE_TLS=1
+      ENABLE_TMUX=0
+      ENABLE_URLVIEW=1
+      ENABLE_VIM=0
+      ENABLE_WINPTY=1
     elif [ "$i" == '--enable-aadbook' ]; then
         ENABLE_AADBOOK=1
     elif [ "$i" == '--enable-b1' ]; then
