@@ -5,6 +5,7 @@ ENABLE_AADBOOK=0
 ENABLE_B1=0
 ENABLE_DOTFILES=1
 ENABLE_GOOBOOK=0
+ENABLE_JSLS=1
 ENABLE_KEYRING=1
 ENABLE_NATIVEFIED_APPS=0
 ENABLE_OFFLINEIMAP=1
@@ -22,6 +23,7 @@ for i; do
       ENABLE_B1=1
       ENABLE_DOTFILES=1
       ENABLE_GOOBOOK=1
+      ENABLE_JSLS=1
       ENABLE_KEYRING=1
       ENABLE_NATIVEFIED_APPS=0
       ENABLE_OFFLINEIMAP=1
@@ -35,6 +37,7 @@ for i; do
       ENABLE_B1=1
       ENABLE_DOTFILES=1
       ENABLE_GOOBOOK=1
+      ENABLE_JSLS=1
       ENABLE_KEYRING=1
       ENABLE_NATIVEFIED_APPS=0
       ENABLE_OFFLINEIMAP=1
@@ -51,6 +54,8 @@ for i; do
         ENABLE_DOTFILES=0
     elif [ "$i" == '--enable-goobook' ]; then
         ENABLE_GOOBOOK=1
+    elif [ "$i" == '--disable-jsls' ]; then
+        ENABLE_JSLS=0
     elif [ "$i" == '--disable-keyring' ]; then
         ENABLE_KEYRING=0
     elif [ "$i" == '--enable-nativefied-apps' ]; then
@@ -133,6 +138,16 @@ function remove {
 )
 
 (
+    if [ $ENABLE_JSLS -eq 1 ]; then
+        cd opt/js-langserver
+        test $FORCE -eq 1 && rm -rf node_modules
+        if [ ! -d node_modules ]; then
+            npm install
+        fi
+    fi
+)
+
+(
     if [ $ENABLE_KEYRING -eq 1 ]; then
         cd opt/keyring
         test $FORCE -eq 1 && rm -rf venv
@@ -154,7 +169,7 @@ function remove {
 (
     if [ $ENABLE_OFFLINEIMAP -eq 1 ]; then
         cd opt/offlineimap
-        test $FORCE -eq 1 && test -d 'venv' && rm -rf venv
+        test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
             virtualenvw venv
             venv-pip install -r requirements.txt
@@ -168,7 +183,7 @@ function remove {
 (
     if [ $ENABLE_TLS -eq 1 ]; then
         cd opt/typescript-language-server
-        test $FORCE -eq 1 && test -d node_modules && rm -rf node_modules
+        test $FORCE -eq 1 && rm -rf node_modules
         if [ ! -d node_modules ]; then
             npm install
         fi
