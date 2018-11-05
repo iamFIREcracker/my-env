@@ -57,4 +57,4 @@
 	url = git@gitlab.com:iamFIREcracker/goobook.git
 [submodule "opt/js-langserver"]
 	path = opt/js-langserver
-	url = https://github.com/tbodt/js-langserver.git
+	url = git@github.com:iamFIREcracker/js-langserver.git
