@@ -18,6 +18,20 @@ ENABLE_WINPTY=0
 for i; do
     if [ "$i" == '--force' ]; then
         FORCE=1
+    elif [ "$i" == '--os-linux' ]; then
+      ENABLE_AADBOOK=0
+      ENABLE_B1=0
+      ENABLE_DOTFILES=1
+      ENABLE_GOOBOOK=0
+      ENABLE_JSLS=1
+      ENABLE_KEYRING=0
+      ENABLE_NATIVEFIED_APPS=0
+      ENABLE_OFFLINEIMAP=0
+      ENABLE_TLS=1
+      ENABLE_TMUX=1
+      ENABLE_URLVIEW=1
+      ENABLE_VIM=1
+      ENABLE_WINPTY=0
     elif [ "$i" == '--os-mac' ]; then
       ENABLE_AADBOOK=1
       ENABLE_B1=1
