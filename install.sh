@@ -187,8 +187,8 @@ function remove {
         if [ ! -d venv ]; then
             virtualenvw venv
             venv-pip install -r requirements.txt
-            make clean
-            make
+            venv-python setup.py build
+            venv-python setup.py install
             mkdir -p ~/.mail
         fi
     fi
