@@ -16,6 +16,10 @@ except:
 
 
 class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
+    def aoc(self, arg):
+        """Goes to Advent of Code"""
+        return "https://adventofcode.com/"
+
     def aruba(self, arg):
         """Goes to the Aruba-manage-hosts page"""
         return "https://managehosting.aruba.it"
