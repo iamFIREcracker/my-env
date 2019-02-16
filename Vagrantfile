@@ -7,7 +7,7 @@ required_plugins.each do |plugin|
 end
 
 Vagrant.configure(2) do |config|
-    config.vm.box = "ubuntu/xenial64"
+    config.vm.box = "ubuntu/bionic64"
     config.vm.hostname = "dabox"
     config.vm.box_check_update = false
     config.vm.network 'private_network', ip: "33.33.33.10"
@@ -28,7 +28,7 @@ Vagrant.configure(2) do |config|
         vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
 
         # Extra disk
-        file_to_disk = 'connection.vdi'
+        file_to_disk = 'drive.vdi'
         unless File.exist?(file_to_disk)
             vb.customize ['createhd', '--filename', file_to_disk, '--size', 20 * 1024]
         end
