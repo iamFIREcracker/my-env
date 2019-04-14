@@ -59,3 +59,6 @@
 	path = opt/js-langserver
 	url = git@github.com:iamFIREcracker/js-langserver.git
 	ignore = dirty
+[submodule "opt/mg"]
+	path = opt/mg
+	url = git@github.com:iamFIREcracker/mg.git
