@@ -3,6 +3,7 @@
 FORCE=0
 ENABLE_AADBOOK=0
 ENABLE_B1=0
+ENABLE_CG=1
 ENABLE_DOTFILES=1
 ENABLE_GOOBOOK=0
 ENABLE_JSLS=1
@@ -21,6 +22,7 @@ for i; do
     elif [ "$i" == '--os-linux' ]; then
       ENABLE_AADBOOK=0
       ENABLE_B1=0
+      ENABLE_CG=1
       ENABLE_DOTFILES=1
       ENABLE_GOOBOOK=0
       ENABLE_JSLS=1
@@ -35,6 +37,7 @@ for i; do
     elif [ "$i" == '--os-mac' ]; then
       ENABLE_AADBOOK=1
       ENABLE_B1=1
+      ENABLE_CG=1
       ENABLE_DOTFILES=1
       ENABLE_GOOBOOK=1
       ENABLE_JSLS=1
@@ -49,6 +52,7 @@ for i; do
     elif [ "$i" == '--os-win' ]; then
       ENABLE_AADBOOK=1
       ENABLE_B1=1
+      ENABLE_CG=1
       ENABLE_DOTFILES=1
       ENABLE_GOOBOOK=1
       ENABLE_JSLS=1
@@ -64,6 +68,8 @@ for i; do
         ENABLE_AADBOOK=1
     elif [ "$i" == '--enable-b1' ]; then
         ENABLE_B1=1
+    elif [ "$i" == '--disable-cg' ]; then
+        ENABLE_CG=0
     elif [ "$i" == '--disable-dotfiles' ]; then
         ENABLE_DOTFILES=0
     elif [ "$i" == '--enable-goobook' ]; then
@@ -129,6 +135,16 @@ function remove {
         if [ ! -d venv ]; then
             virtualenv venv
             venv-pip install -r requirements.txt
+        fi
+    fi
+)
+
+(
+    if [ $ENABLE_CG -eq 1 ]; then
+        cd opt/cg
+        test $FORCE -eq 1 && make clean
+        if [ ! -d bin ]; then
+            make
         fi
     fi
 )
