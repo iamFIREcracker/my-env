@@ -96,7 +96,7 @@ for i; do
 done
 
 WORKDIR="$(pwd)"
-OS_WIN=$(uname -s | grep CYGWIN)
+OS_WIN=$(uname -s | grep -e CYGWIN -e Microsoft)
 
 set -u
 set -e
@@ -116,6 +116,9 @@ function remove {
     echo "R $1"
     rm -rf "$1"
 }
+
+ensure_link "dotfiles" "dotfiles"
+ensure_link "opt"      "opt"
 
 (
     if [ $ENABLE_AADBOOK -eq 1 ]; then
@@ -140,8 +143,20 @@ function remove {
 )
 
 (
+    sbcl \
+        --load ~/opt/quicklisp/quicklisp.lisp \
+        --eval '(quicklisp-quickstart:install)' \
+        --eval '(ql:quickload :deploy)' \
+        --eval '(quit)'
+)
+
+(
     if [ $ENABLE_CG -eq 1 ]; then
         cd opt/cg
+        test $FORCE -eq 1 && rm -f ~/quicklisp/local-projects/cg
+        if [ ! -L ~/quicklisp/local-projects/cg ]; then
+            ln -s $(pwd) ~/quicklisp/local-projects/cg
+        fi
         test $FORCE -eq 1 && make clean
         if [ ! -d bin ]; then
             make
@@ -277,6 +292,3 @@ function remove {
         fi
     fi
 )
-
-ensure_link "dotfiles" "dotfiles"
-ensure_link "opt"      "opt"
