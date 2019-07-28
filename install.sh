@@ -15,6 +15,7 @@ ENABLE_TMUX=1
 ENABLE_URLVIEW=1
 ENABLE_VIM=1
 ENABLE_WINPTY=0
+ENABLE_Z=1
 
 for i; do
     if [ "$i" == '--force' ]; then
@@ -257,6 +258,7 @@ ensure_link "opt"      "opt"
             ./configure
             make
         fi
+        ensure_link "opt/urlview/urlview.man" "man/man1/urlview.1"
     fi
 )
 
@@ -290,5 +292,11 @@ ensure_link "opt"      "opt"
             ./configure
             make
         fi
+    fi
+)
+
+(
+    if [ $ENABLE_Z -eq 1 ]; then
+        ensure_link "opt/z/z.1" "man/man1/z.1"
     fi
 )
