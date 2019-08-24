@@ -228,7 +228,7 @@ ResizePct(x_offset_pct, y_offset_pct, width_pct, height_pct)
     ^w::Send ^{Backspace}
 
 #IfWinActive ahk_exe mintty.exe
-    ; Send ✠ on <C-CR> -- Vim uses it
-    ^Return::Send {U+2720}
-    ; Send Ř on <C-S-P> -- Vim uses it
-    ^+P::Send {U+0158}
+    ; Send ◊ on <C-CR> -- Vim uses it
+    ^Return::Send {U+25CA}
+    ; Send Ø on <S-CR> -- Vim uses it
+    +Return::Send {U+00F8}
