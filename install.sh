@@ -1,97 +1,59 @@
 #!/usr/bin/env bash
 
 FORCE=0
-ENABLE_AADBOOK=0
-ENABLE_B1=0
-ENABLE_CG=1
-ENABLE_DOTFILES=1
-ENABLE_GOOBOOK=0
-ENABLE_JSLS=1
-ENABLE_KEYRING=1
-ENABLE_NATIVEFIED_APPS=0
-ENABLE_OFFLINEIMAP=1
-ENABLE_TLS=1
-ENABLE_TMUX=1
-ENABLE_URLVIEW=1
-ENABLE_VIM=1
-ENABLE_WINPTY=0
-ENABLE_Z=1
+ENABLE_AADBOOK=${ENABLE_AADBOOK:-0}
+ENABLE_B1=${ENABLE_B1:-0}
+ENABLE_CG=${ENABLE_CG:-0}
+ENABLE_DOTFILES=${ENABLE_DOTFILES:-0}
+ENABLE_GOOBOOK=${ENABLE_GOOBOOK:-0}
+ENABLE_JSLS=${ENABLE_JSLS:-0}
+ENABLE_KEYRING=${ENABLE_KEYRING:-0}
+ENABLE_NATIVEFIED_APPS=${ENABLE_NATIVEFIED_APPS:-0}
+ENABLE_OFFLINEIMAP=${ENABLE_OFFLINEIMAP:-0}
+ENABLE_QUICKLISP=${ENABLE_QUICKLISP:-0}
+ENABLE_TLS=${ENABLE_TLS:-0}
+ENABLE_TMUX=${ENABLE_TMUX:-0}
+ENABLE_URLVIEW=${ENABLE_URLVIEW:-0}
+ENABLE_VIM=${ENABLE_VIM:-0}
+ENABLE_WINPTY=${ENABLE_WINPTY:-0}
+ENABLE_Z=${ENABLE_Z:-0}
 
 for i; do
     if [ "$i" == '--force' ]; then
         FORCE=1
     elif [ "$i" == '--os-linux' ]; then
-      ENABLE_AADBOOK=0
-      ENABLE_B1=0
-      ENABLE_CG=1
-      ENABLE_DOTFILES=1
-      ENABLE_GOOBOOK=0
-      ENABLE_JSLS=1
-      ENABLE_KEYRING=0
-      ENABLE_NATIVEFIED_APPS=0
-      ENABLE_OFFLINEIMAP=0
-      ENABLE_TLS=1
-      ENABLE_TMUX=1
-      ENABLE_URLVIEW=1
-      ENABLE_VIM=1
-      ENABLE_WINPTY=0
+        ENABLE_CG=1
+        ENABLE_DOTFILES=1
+        ENABLE_JSLS=1
+        ENABLE_QUICKLISP=1
+        ENABLE_TLS=1
+        ENABLE_TMUX=1
+        ENABLE_URLVIEW=1
+        ENABLE_VIM=1
     elif [ "$i" == '--os-mac' ]; then
-      ENABLE_AADBOOK=1
-      ENABLE_B1=1
-      ENABLE_CG=1
-      ENABLE_DOTFILES=1
-      ENABLE_GOOBOOK=1
-      ENABLE_JSLS=1
-      ENABLE_KEYRING=1
-      ENABLE_NATIVEFIED_APPS=0
-      ENABLE_OFFLINEIMAP=1
-      ENABLE_TLS=1
-      ENABLE_TMUX=0
-      ENABLE_URLVIEW=1
-      ENABLE_VIM=0
-      ENABLE_WINPTY=0
-    elif [ "$i" == '--os-win' ]; then
-      ENABLE_AADBOOK=1
-      ENABLE_B1=1
-      ENABLE_CG=1
-      ENABLE_DOTFILES=1
-      ENABLE_GOOBOOK=1
-      ENABLE_JSLS=1
-      ENABLE_KEYRING=1
-      ENABLE_NATIVEFIED_APPS=0
-      ENABLE_OFFLINEIMAP=1
-      ENABLE_TLS=1
-      ENABLE_TMUX=0
-      ENABLE_URLVIEW=1
-      ENABLE_VIM=0
-      ENABLE_WINPTY=1
-    elif [ "$i" == '--enable-aadbook' ]; then
         ENABLE_AADBOOK=1
-    elif [ "$i" == '--enable-b1' ]; then
         ENABLE_B1=1
-    elif [ "$i" == '--disable-cg' ]; then
-        ENABLE_CG=0
-    elif [ "$i" == '--disable-dotfiles' ]; then
-        ENABLE_DOTFILES=0
-    elif [ "$i" == '--enable-goobook' ]; then
+        ENABLE_CG=1
+        ENABLE_DOTFILES=1
         ENABLE_GOOBOOK=1
-    elif [ "$i" == '--disable-jsls' ]; then
-        ENABLE_JSLS=0
-    elif [ "$i" == '--disable-keyring' ]; then
-        ENABLE_KEYRING=0
-    elif [ "$i" == '--enable-nativefied-apps' ]; then
-        ENABLE_NATIVEFIED_APPS=1
-    elif [ "$i" == '--disable-offlineimap' ]; then
-        ENABLE_OFFLINEIMAP=0
-    elif [ "$i" == '--disable-tls' ]; then
-        ENABLE_TLS=0
-    elif [ "$i" == '--disable-tmux' ]; then
-        ENABLE_TMUX=0
-    elif [ "$i" == '--disable-urlview' ]; then
-        ENABLE_URLVIEW=0
-    elif [ "$i" == '--disable-vim' ]; then
-        ENABLE_VIM=0
-    elif [ "$i" == '--enable-winpty' ]; then
+        ENABLE_JSLS=1
+        ENABLE_KEYRING=1
+        ENABLE_QUICKLISP=1
+        ENABLE_OFFLINEIMAP=1
+        ENABLE_TLS=1
+        ENABLE_URLVIEW=1
+    elif [ "$i" == '--os-win' ]; then
+        ENABLE_AADBOOK=1
+        ENABLE_B1=1
+        ENABLE_CG=1
+        ENABLE_DOTFILES=1
+        ENABLE_GOOBOOK=1
+        ENABLE_JSLS=1
+        ENABLE_KEYRING=1
+        ENABLE_OFFLINEIMAP=1
+        ENABLE_QUICKLISP=1
+        ENABLE_TLS=1
+        ENABLE_URLVIEW=1
         ENABLE_WINPTY=1
     fi
 done
@@ -144,11 +106,17 @@ ensure_link "opt"      "opt"
 )
 
 (
-    sbcl \
-        --load ~/opt/quicklisp/quicklisp.lisp \
-        --eval '(quicklisp-quickstart:install)' \
-        --eval '(ql:quickload :deploy)' \
-        --eval '(quit)'
+    if [ $ENABLE_QUICKLISP -eq 1 ]; then
+        test $FORCE -eq 1 && rm -rf ~/quicklisp/
+        if [ ! -d ~/quicklisp ]; then
+            sbcl \
+                --load ~/opt/quicklisp/quicklisp.lisp \
+                --eval '(quicklisp-quickstart:install)' \
+                --eval '(ql:quickload :deploy)' \
+                --eval '(quit)'
+
+        fi
+    fi
 )
 
 (
@@ -258,7 +226,9 @@ ensure_link "opt"      "opt"
             ./configure
             make
         fi
-        ensure_link "opt/urlview/urlview.man" "man/man1/urlview.1"
+        if [ ! -f ~/man/man1/urlview.1 ]; then
+            ensure_link "opt/urlview/urlview.man" "man/man1/urlview.1"
+        fi
     fi
 )
 
