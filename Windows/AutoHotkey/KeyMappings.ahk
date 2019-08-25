@@ -56,6 +56,21 @@ F14 & k::Send {Up}
 F14 & l::Send {Right}
 F14 & b::Send ^{Left}
 F14 & w::Send ^{Right}
+F14 & p::Send ^+v
+;F14 & p::Send +{Insert}
+;  ClipSaved := ClipboardAll  ;save original clipboard contents
+;  clipboard = %clipboard%  ;remove formatting
+;  Send   ^+v
+;  Clipboard := ClipSaved  ;restore the original clipboard contents
+;  ClipSaved =  ;clear the variable
+;Return
+
+; --------------------------------------------------------------
+; Sane pasting
+; --------------------------------------------------------------
+;^v::Send  ^+v ;Send Ctrl+Shift+v -- unformatted paste
+;^+v::Send ^v  ;Send Ctrl+v -- regular paste command (should you ever need it)
+
 
 ; --------------------------------------------------------------
 ; Application shortcuts -- my left ctrl has been remapped to F15
@@ -63,26 +78,49 @@ F14 & w::Send ^{Right}
 F15 & d::WinActivate ahk_exe WINWORD.EXE
 F15 & h::WinActivate ahk_class mintty_scratchpad
 F15 & i::WinActivate ahk_exe Teams.exe
-F15 & j::WinActivate ahk_class mintty
-F15 & k::WinActivateBottom ahk_exe chrome.exe
-; F15 & l::DllCall("LockWorkStation")
+F15 & j::WinActivate ahk_class mintty_fullscreen
+F15 & k::
+    ; if (exe != "chrome.exe") {
+         WinActivate ahk_exe chrome.exe,, "Dev Tools -"
+    ; } else {
+    return
+;F15 & m::
+;    WinActivate ahk_class mintty_mail
+;    Send ^f1
+;    return
 F15 & m::WinActivate ahk_exe OUTLOOK.EXE
 F15 & n::WinActivate Evernote
-; WinActivate does not work with spotify.exe anymore; the window is 
+; WinActivate does not work with spotify.exe anymore; the window is
 ; focused but then pressing <space> does not triggere Play/Pause as
 ; expected.  Why would WinActivateBottom work instead?  No idea..
 F15 & o::WinActivateBottom ahk_exe spotify.exe
-F15 & p::WinActivate ahk_class tSkMainForm ;Skype
+;F15 & p::
+;    WinActivate ahk_class mintty_mail
+;    Send ^f2
+;    return
+F15 & p::WinActivate ahk_class mintty_mail
 F15 & u::WinActivate ahk_exe idea64.exe
-F15 & Up::Send {Volume_Up} 
-F15 & Down::Send {Volume_Down} 
+F15 & Up::Send {Volume_Up}
+F15 & Down::Send {Volume_Down}
 F15 & Delete::Send {Volume_Mute}
 
 
 ;-----------------------
 ; Mac OS alike shortcuts
 ;-----------------------
-^!4::run "c:\windows\system32\SnippingTool.exe"
+^!4::
+IfWinExist Snip & Sketch
+{
+    WinActivate
+    WinWait,  Snip & Sketch,,2
+    Send ^n
+}
+else
+{
+    Run "C:\WinStoreAppLinks\Snip & Sketch.lnk"
+    sleep, 500
+    send, ^n
+}
 
 ; --------------------------------------------------------------
 ; NOTES
@@ -148,9 +186,6 @@ ResizePct(x_offset_pct, y_offset_pct, width_pct, height_pct)
 ; Die in hell, stupid applications!
 ; -------------------
 #IfWinActive Chrome
-    ^h::Send {Backspace}
-    ^w::Send ^{Backspace}
-    ^k::Send +{End}{Backspace}
 
 #IfWinActive Intellij
     ^h::Send {Backspace}
@@ -165,8 +200,13 @@ ResizePct(x_offset_pct, y_offset_pct, width_pct, height_pct)
     ^w::Send ^{Backspace}
 
 #IfWinActive ahk_exe chrome.exe
+    ^a::Send {Home}
     ^h::Send {Backspace}
+    ^k::Send +{End}{Backspace}
     ^w::Send ^{Backspace}
+    !b::Send ^{Left}
+    !f::Send ^{Right}
+    ^e::Send {End}
 
 #IfWinActive Mail
     ^h::Send {Backspace}
@@ -208,8 +248,8 @@ ResizePct(x_offset_pct, y_offset_pct, width_pct, height_pct)
     ^h::Send {Backspace}
     ^w::Send ^{Backspace}
     ^k::Send +{End}{Backspace}
-    
-#IfWinActive SQuirreL 
+
+#IfWinActive SQuirreL
     ^h::Send {Backspace}
     ^w::Send ^{Backspace}
     ^k::Send +{End}{Backspace}
@@ -219,9 +259,12 @@ ResizePct(x_offset_pct, y_offset_pct, width_pct, height_pct)
     ^w::Send ^{Backspace}
 
 #IfWinActive ahk_exe Teams.exe
+    ^a::Send {Home}
+    ^e::Send {End}
     ^h::Send {Backspace}
     ^w::Send ^{Backspace}
     ^k::Send +{End}{Backspace}
+    ^u::Send +{Home}{Backspace}
 
 #IfWinActive Word
     ^h::Send {Backspace}
@@ -232,3 +275,31 @@ ResizePct(x_offset_pct, y_offset_pct, width_pct, height_pct)
     ^Return::Send {U+25CA}
     ; Send Ø on <S-CR> -- Vim uses it
     +Return::Send {U+00F8}
+    ;; Reset ^v behavior -- we use ^V with vim
+    ;^v::Send ^v
+    F14 & p::Send +{Insert}
+
+#IfWinActive ahk_exe SearchUI.exe
+    ^w::Send ^{Backspace}
+
+#IfWinActive ahk_exe OUTLOOK.EXE
+    ^a::Send {Home}
+    ^e::Send {End}
+    ^h::Send {Backspace}
+    ^w::Send ^{Backspace}
+    ^SPACE::Send ^k
+    ^k::Send +{End}{Backspace}
+    F14 & p::
+        Send ^v
+        sleep, 100
+        Send ^k
+        sleep, 100
+        Send t
+        return
+
+#IfWinActive ahk_exe WINWORD.EXE
+    ^a::Send {Home}
+    ^e::Send {End}
+    ^h::Send {Backspace}
+    ^w::Send ^{Backspace}
+    ^k::Send +{End}{Backspace}

@@ -210,7 +210,7 @@ ensure_link "opt"      "opt"
         test $FORCE -eq 1 && test -f 'tmux' && make clean
         if [ ! -f tmux ]; then
             sh autogen.sh
-            ./configure 
+            ./configure
             make
             sudo make install
         fi
@@ -222,8 +222,8 @@ ensure_link "opt"      "opt"
         cd opt/urlview
         test $FORCE -eq 1 && test -f 'urlview' && make clean
         if [ ! -f urlview -a ! -f urlview.exe ]; then
-            autoreconf -vfi # https://github.com/sigpipe/urlview/issues/7
             ./configure
+            autoreconf -vfi # https://github.com/sigpipe/urlview/issues/7
             make
         fi
         if [ ! -f ~/man/man1/urlview.1 ]; then

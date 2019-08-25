@@ -1,6 +1,7 @@
 [submodule "dotfiles"]
 	path = dotfiles
 	url = git@github.com:iamFIREcracker/dotfiles.git
+	update = none
 [submodule "opt/z"]
 	path = opt/z
 	url = https://github.com/rupa/z.git
@@ -40,6 +41,7 @@
 [submodule "opt/urlview"]
 	path = opt/urlview
 	url = https://github.com/sigpipe/urlview.git
+	ignore = dirty
 [submodule "opt/aadbook"]
 	path = opt/aadbook
 	url = git@github.com:iamFIREcracker/aadbook.git
