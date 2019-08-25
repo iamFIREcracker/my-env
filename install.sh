@@ -45,16 +45,19 @@ for i; do
     elif [ "$i" == '--os-win' ]; then
         ENABLE_AADBOOK=1
         ENABLE_B1=1
-        ENABLE_CG=1
+        ENABLE_CG=0
         ENABLE_DOTFILES=1
-        ENABLE_GOOBOOK=1
+        ENABLE_GOOBOOK=0
         ENABLE_JSLS=1
         ENABLE_KEYRING=1
         ENABLE_OFFLINEIMAP=1
-        ENABLE_QUICKLISP=1
+        ENABLE_QUICKLISP=0
         ENABLE_TLS=1
         ENABLE_URLVIEW=1
         ENABLE_WINPTY=1
+    else
+        echo "Unsupported option: $i"
+        exit 1
     fi
 done
 
@@ -75,11 +78,22 @@ function create_link {
     ln -s "$1" "$2"
 }
 
+function ensure_dir {
+    test $FORCE -eq 1 && remove "$HOME/$1"
+    test -d "$HOME/$1" || create_dir "$HOME/$1"
+}
+
 function remove {
     echo "R $1"
     rm -rf "$1"
 }
 
+function create_dir {
+    echo "D $1"
+    mkdir -p $1
+}
+
+ensure_dir  "man/man1"
 ensure_link "dotfiles" "dotfiles"
 ensure_link "opt"      "opt"
 
