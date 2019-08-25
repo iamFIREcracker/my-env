@@ -1,6 +1,7 @@
 [submodule "dotfiles"]
 	path = dotfiles
 	url = git@github.com:iamFIREcracker/dotfiles.git
+	ignore = dirty
 	update = none
 [submodule "opt/z"]
 	path = opt/z
