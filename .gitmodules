@@ -7,12 +7,6 @@
 [submodule "opt/PathPicker"]
 	path = opt/PathPicker
 	url = https://github.com/facebook/PathPicker.git
-[submodule "opt/fabric-completion"]
-	path = opt/fabric-completion
-	url = https://github.com/underself/fabric-completion.git
-[submodule "opt/vagrant-bash-completion"]
-	path = opt/vagrant-bash-completion
-	url = https://github.com/kura/vagrant-bash-completion.git
 [submodule "fonts"]
 	path = fonts
 	url = https://github.com/powerline/fonts.git
@@ -22,12 +16,6 @@
 [submodule "opt/tmux"]
 	path = opt/tmux
 	url = https://github.com/tmux/tmux
-[submodule "opt/tmuxinator"]
-	path = opt/tmuxinator
-	url = https://github.com/tmuxinator/tmuxinator.git
-[submodule "gruvbox-contrib"]
-	path = gruvbox-contrib
-	url = https://github.com/morhetz/gruvbox-contrib.git
 [submodule "opt/cb"]
 	path = opt/cb
 	url = git@github.com:iamFIREcracker/cb.git
