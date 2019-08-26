@@ -250,7 +250,7 @@ ensure_link "opt"      "opt"
     if [ $ENABLE_VIM -eq 1 ]; then
         cd opt/vim
         test $FORCE -eq 1 && make clean
-        if [ ! -f vim ]; then
+        if [ ! -f src/vim ]; then
             ./configure \
                     --enable-terminal \
                     --with-features=huge \
