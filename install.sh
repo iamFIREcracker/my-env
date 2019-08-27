@@ -43,16 +43,9 @@ for i; do
         ENABLE_TLS=1
         ENABLE_URLVIEW=1
     elif [ "$i" == '--os-win' ]; then
-        ENABLE_AADBOOK=1
         ENABLE_B1=1
-        ENABLE_CG=0
         ENABLE_DOTFILES=1
-        ENABLE_GOOBOOK=0
-        ENABLE_JSLS=1
         ENABLE_KEYRING=1
-        ENABLE_OFFLINEIMAP=1
-        ENABLE_QUICKLISP=0
-        ENABLE_TLS=1
         ENABLE_URLVIEW=1
         ENABLE_WINPTY=1
     else
@@ -234,7 +227,7 @@ ensure_link "opt"      "opt"
 (
     if [ $ENABLE_URLVIEW -eq 1 ]; then
         cd opt/urlview
-        test $FORCE -eq 1 && test -f 'urlview' && make clean
+        test $FORCE -eq 1 && test -f 'urlview' && (make clean || true)
         if [ ! -f urlview -a ! -f urlview.exe ]; then
             ./configure
             autoreconf -vfi # https://github.com/sigpipe/urlview/issues/7
