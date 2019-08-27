@@ -42,12 +42,14 @@ for i; do
         ENABLE_OFFLINEIMAP=1
         ENABLE_TLS=1
         ENABLE_URLVIEW=1
-    elif [ "$i" == '--os-win' ]; then
+    elif [ "$i" == '--os-win-top' ]; then
         ENABLE_B1=1
         ENABLE_DOTFILES=1
         ENABLE_KEYRING=1
         ENABLE_URLVIEW=1
         ENABLE_WINPTY=1
+    elif [ "$i" == '--os-win-station' ]; then
+        ENABLE_DOTFILES=1
     else
         echo "Unsupported option: $i"
         exit 1
