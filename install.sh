@@ -10,6 +10,7 @@ ENABLE_DOTFILES=${ENABLE_DOTFILES:-0}
 ENABLE_GOOBOOK=${ENABLE_GOOBOOK:-0}
 ENABLE_JSLS=${ENABLE_JSLS:-0}
 ENABLE_KEYRING=${ENABLE_KEYRING:-0}
+ENABLE_MUTT_NOTMUCH_PY=${ENABLE_MUTT_NOTMUCH_PY:-0}
 ENABLE_NATIVEFIED_APPS=${ENABLE_NATIVEFIED_APPS:-0}
 ENABLE_OFFLINEIMAP=${ENABLE_OFFLINEIMAP:-0}
 ENABLE_QUICKLISP=${ENABLE_QUICKLISP:-0}
@@ -45,8 +46,9 @@ for i; do
         ENABLE_GOOBOOK=1
         ENABLE_JSLS=1
         ENABLE_KEYRING=1
-        ENABLE_QUICKLISP=1
+        ENABLE_MUTT_NOTMUCH_PY=1
         ENABLE_OFFLINEIMAP=1
+        ENABLE_QUICKLISP=1
         ENABLE_TLS=1
         ENABLE_URLVIEW=1
         ENABLE_Z=1
@@ -130,7 +132,7 @@ ensure_link "opt"      "opt"
 (
     if [ $ENABLE_BR -eq 1 ]; then
         cd opt/br
-        test $FORCE -eq 1 && rm ~/local/bin/br
+        test $FORCE -eq 1 && rm -f ~/local/bin/br
         if [ ! -f ~/local/bin/br ]; then
           PREFIX=~/local/bin make install
         fi
@@ -140,7 +142,7 @@ ensure_link "opt"      "opt"
 (
     if [ $ENABLE_CB -eq 1 ]; then
         cd opt/cb
-        test $FORCE -eq 1 && rm ~/local/bin/cb
+        test $FORCE -eq 1 && rm -f ~/local/bin/cb
         if [ ! -f ~/local/bin/cb ]; then
           PREFIX=~/local/bin make install
         fi
@@ -188,7 +190,8 @@ ensure_link "opt"      "opt"
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
             virtualenvw venv --python=python3
-            venv-python setup.py develop
+            venv-python setup.py install \
+              --install-scripts=~/local/bin
         fi
     fi
 )
@@ -219,6 +222,21 @@ ensure_link "opt"      "opt"
         cd nativefied-apps/
         test $FORCE -eq 1 && rm -rf node_modules
         npm install
+    fi
+)
+
+(
+    if [ $ENABLE_MUTT_NOTMUCH_PY -eq 1 ]; then
+        cd opt/mutt-notmuch-py
+        test $FORCE -eq 1 && rm -rf venv
+        if [ ! -d venv ]; then
+            virtualenvw venv
+        fi
+        test $FORCE -eq 1 && rm -f ~/local/bin/mutt-notmuch-py
+        if [ ! -f ~/local/bin/mutt-notmuch-py ]; then
+            venv-python setup.py install \
+              --install-scripts=~/local/bin
+        fi
     fi
 )
 
@@ -270,7 +288,6 @@ ensure_link "opt"      "opt"
             autoreconf -vfi # https://github.com/sigpipe/urlview/issues/7
             make
         fi
-        ensure_link "opt/urlview/urlview.man" "local/man/man1/urlview.1"
     fi
 )
 
