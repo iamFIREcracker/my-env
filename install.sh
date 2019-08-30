@@ -84,7 +84,6 @@ function ensure_link {
 }
 
 function create_link {
-    echo "L $2 -> $1"
     ln -s "$1" "$2"
 }
 
@@ -94,12 +93,10 @@ function ensure_dir {
 }
 
 function remove {
-    echo "R $1"
     rm -rf "$1"
 }
 
 function create_dir {
-    echo "D $1"
     mkdir -p $1
 }
 
