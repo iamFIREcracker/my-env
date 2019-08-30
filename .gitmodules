@@ -6,9 +6,6 @@
 [submodule "opt/z"]
 	path = opt/z
 	url = https://github.com/rupa/z.git
-[submodule "opt/PathPicker"]
-	path = opt/PathPicker
-	url = https://github.com/facebook/PathPicker.git
 [submodule "fonts"]
 	path = fonts
 	url = https://github.com/powerline/fonts.git
