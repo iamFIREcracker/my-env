@@ -113,7 +113,11 @@ ensure_link "opt"      "opt"
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
             virtualenvw venv
-            venv-python setup.py develop
+        fi
+        test $FORCE -eq 1 && rm -f ~/local/bin/aadbook
+        if [ ! -f ~/local/bin/aadbook ]; then
+            venv-python setup.py install \
+              --install-scripts=~/local/bin
         fi
     fi
 )
@@ -190,6 +194,9 @@ ensure_link "opt"      "opt"
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
             virtualenvw venv --python=python3
+        fi
+        test $FORCE -eq 1 && rm -f ~/local/bin/goobook
+        if [ ! -f ~/local/bin/goobook ]; then
             venv-python setup.py install \
               --install-scripts=~/local/bin
         fi
