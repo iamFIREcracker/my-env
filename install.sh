@@ -3,6 +3,8 @@
 FORCE=0
 ENABLE_AADBOOK=${ENABLE_AADBOOK:-0}
 ENABLE_B1=${ENABLE_B1:-0}
+ENABLE_BR=${ENABLE_BR:-0}
+ENABLE_CB=${ENABLE_CB:-0}
 ENABLE_CG=${ENABLE_CG:-0}
 ENABLE_DOTFILES=${ENABLE_DOTFILES:-0}
 ENABLE_GOOBOOK=${ENABLE_GOOBOOK:-0}
@@ -22,6 +24,8 @@ for i; do
     if [ "$i" == '--force' ]; then
         FORCE=1
     elif [ "$i" == '--os-linux' ]; then
+        ENABLE_BR=1
+        ENABLE_CB=1
         ENABLE_CG=1
         ENABLE_DOTFILES=1
         ENABLE_JSLS=1
@@ -34,6 +38,8 @@ for i; do
     elif [ "$i" == '--os-mac' ]; then
         ENABLE_AADBOOK=1
         ENABLE_B1=1
+        ENABLE_BR=1
+        ENABLE_CB=1
         ENABLE_CG=1
         ENABLE_DOTFILES=1
         ENABLE_GOOBOOK=1
@@ -46,12 +52,16 @@ for i; do
         ENABLE_Z=1
     elif [ "$i" == '--os-win-top' ]; then
         ENABLE_B1=1
+        ENABLE_BR=1
+        ENABLE_CB=1
         ENABLE_DOTFILES=1
         ENABLE_KEYRING=1
         ENABLE_URLVIEW=1
         ENABLE_WINPTY=1
         ENABLE_Z=1
     elif [ "$i" == '--os-win-station' ]; then
+        ENABLE_BR=1
+        ENABLE_CB=1
         ENABLE_DOTFILES=1
         ENABLE_WINPTY=1
         ENABLE_Z=1
@@ -93,7 +103,8 @@ function create_dir {
     mkdir -p $1
 }
 
-ensure_dir  "man/man1"
+ensure_dir  "local/bin"
+ensure_dir  "local/man/man1"
 ensure_link "dotfiles" "dotfiles"
 ensure_link "opt"      "opt"
 
@@ -115,6 +126,26 @@ ensure_link "opt"      "opt"
         if [ ! -d venv ]; then
             virtualenv venv
             venv-pip install -r requirements.txt
+        fi
+    fi
+)
+
+(
+    if [ $ENABLE_BR -eq 1 ]; then
+        cd opt/br
+        test $FORCE -eq 1 && rm ~/local/bin/br
+        if [ ! -f ~/local/bin/br ]; then
+          PREFIX=~/local/bin make install
+        fi
+    fi
+)
+
+(
+    if [ $ENABLE_CB -eq 1 ]; then
+        cd opt/cb
+        test $FORCE -eq 1 && rm ~/local/bin/cb
+        if [ ! -f ~/local/bin/cb ]; then
+          PREFIX=~/local/bin make install
         fi
     fi
 )
@@ -240,9 +271,7 @@ ensure_link "opt"      "opt"
             autoreconf -vfi # https://github.com/sigpipe/urlview/issues/7
             make
         fi
-        if [ ! -f ~/man/man1/urlview.1 ]; then
-            ensure_link "opt/urlview/urlview.man" "man/man1/urlview.1"
-        fi
+        ensure_link "opt/urlview/urlview.man" "local/man/man1/urlview.1"
     fi
 )
 
@@ -281,6 +310,6 @@ ensure_link "opt"      "opt"
 
 (
     if [ $ENABLE_Z -eq 1 ]; then
-        ensure_link "opt/z/z.1" "man/man1/z.1"
+        ensure_link "opt/z/z.1" "local/man/man1/z.1"
     fi
 )
