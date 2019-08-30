@@ -264,7 +264,9 @@ ensure_link "opt"      "opt"
         cd opt/urlview
         test $FORCE -eq 1 && test -f 'urlview' && (make clean || true)
         if [ ! -f urlview -a ! -f urlview.exe ]; then
-            ./configure
+            ./configure \
+              --prefix=$HOME/local \
+              --mandir=$HOME/local/man
             autoreconf -vfi # https://github.com/sigpipe/urlview/issues/7
             make
         fi
