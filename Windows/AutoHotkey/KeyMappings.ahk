@@ -100,6 +100,7 @@ F15 & o::WinActivateBottom ahk_exe spotify.exe
 ;    return
 F15 & p::WinActivate ahk_class mintty_mail
 F15 & u::WinActivate ahk_exe idea64.exe
+F15 & y::WinActivate ahk_class mintty_workstation
 F15 & Up::Send {Volume_Up}
 F15 & Down::Send {Volume_Down}
 F15 & Delete::Send {Volume_Mute}
@@ -298,6 +299,13 @@ ResizePct(x_offset_pct, y_offset_pct, width_pct, height_pct)
         return
 
 #IfWinActive ahk_exe WINWORD.EXE
+    ^a::Send {Home}
+    ^e::Send {End}
+    ^h::Send {Backspace}
+    ^w::Send ^{Backspace}
+    ^k::Send +{End}{Backspace}
+
+#IfWinActive ahk_exe POWERPNT.EXE
     ^a::Send {Home}
     ^e::Send {End}
     ^h::Send {Backspace}
