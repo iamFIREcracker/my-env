@@ -164,19 +164,24 @@ ensure_link "opt"      "opt"
                 --eval '(quit)'
 
         fi
+        ensure_link "opt/cg" "quicklisp/local-projects/cg"
     fi
 )
 
 (
     if [ $ENABLE_CG -eq 1 ]; then
         cd opt/cg
-        test $FORCE -eq 1 && rm -f ~/quicklisp/local-projects/cg
-        if [ ! -L ~/quicklisp/local-projects/cg ]; then
-            ln -s $(pwd) ~/quicklisp/local-projects/cg
-        fi
         test $FORCE -eq 1 && make clean
-        if [ ! -d bin ]; then
+        if [ $ENABLE_QUICKLISP -eq 0 ]; then
+          if [ ! -d bin ]; then
+            ./download
+            PREFIX=~/local/bin make install
+          fi
+        else
+          if [ ! -d bin ]; then
             make
+            PREFIX=~/local/bin make install
+          fi
         fi
     fi
 )
