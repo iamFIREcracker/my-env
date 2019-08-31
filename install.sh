@@ -292,6 +292,7 @@ ensure_link "opt"      "opt"
               --mandir=$HOME/local/man
             autoreconf -vfi # https://github.com/sigpipe/urlview/issues/7
             make
+            make install
         fi
     fi
 )
