@@ -273,9 +273,11 @@ ensure_link "opt"      "opt"
         test $FORCE -eq 1 && test -f 'tmux' && make clean
         if [ ! -f tmux ]; then
             sh autogen.sh
-            ./configure
+            ./configure \
+              --prefix=$HOME/local \
+              --mandir=$HOME/local/man
             make
-            sudo make install
+            make install
         fi
     fi
 )
