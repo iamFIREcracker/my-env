@@ -326,6 +326,7 @@ ensure_link "opt"      "opt"
         if [ ! -f build/winpty.exe ]; then
             ./configure
             make
+            PREFIX=~/local/bin make install
         fi
     fi
 )
