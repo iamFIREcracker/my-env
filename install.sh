@@ -56,6 +56,7 @@ for i; do
         ENABLE_B1=1
         ENABLE_BR=1
         ENABLE_CB=1
+        ENABLE_CG=1
         ENABLE_DOTFILES=1
         ENABLE_KEYRING=1
         ENABLE_URLVIEW=1
@@ -64,6 +65,7 @@ for i; do
     elif [ "$i" == '--os-win-station' ]; then
         ENABLE_BR=1
         ENABLE_CB=1
+        ENABLE_CG=1
         ENABLE_DOTFILES=1
         ENABLE_WINPTY=1
         ENABLE_Z=1
