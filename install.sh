@@ -137,7 +137,7 @@ ensure_link "opt"      "opt"
         cd opt/br
         test $FORCE -eq 1 && rm -f ~/local/bin/br
         if [ ! -f ~/local/bin/br ]; then
-          PREFIX=~/local/bin make install
+          make install PREFIX=~/local
         fi
     fi
 )
@@ -147,7 +147,7 @@ ensure_link "opt"      "opt"
         cd opt/cb
         test $FORCE -eq 1 && rm -f ~/local/bin/cb
         if [ ! -f ~/local/bin/cb ]; then
-          PREFIX=~/local/bin make install
+          make install PREFIX=~/local
         fi
     fi
 )
@@ -174,12 +174,12 @@ ensure_link "opt"      "opt"
         if [ $ENABLE_QUICKLISP -eq 0 ]; then
           if [ ! -d bin ]; then
             ./download
-            PREFIX=~/local/bin make install
+            make install PREFIX=~/local
           fi
         else
           if [ ! -d bin ]; then
             make
-            PREFIX=~/local/bin make install
+            make install PREFIX=~/local
           fi
         fi
     fi
@@ -328,7 +328,7 @@ ensure_link "opt"      "opt"
         if [ ! -f build/winpty.exe ]; then
             ./configure
             make
-            PREFIX=~/local/bin make install
+            make install PREFIX=~/local
         fi
     fi
 )
