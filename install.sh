@@ -106,6 +106,7 @@ function create_dir {
 
 ensure_dir  "local/bin"
 ensure_dir  "local/man/man1"
+ensure_dir  "rubygems/bin"
 ensure_link "dotfiles" "dotfiles"
 ensure_link "opt"      "opt"
 
