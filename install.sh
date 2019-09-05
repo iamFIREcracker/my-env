@@ -329,6 +329,16 @@ ensure_link "opt"      "opt"
 
 (
     if [ $ENABLE_GEMS -eq 1 ]; then
+        rdoclastine=$(tail -1 /usr/share/rubygems/rubygems/rdoc.rb)
+        if [ "$rdoclastine" != 'end' ]; then
+            echo \
+                'You seem to be running a bogus version of rubygems. ' \
+                'If you cannot download a more recent version please' \
+                'manually patch the file as discussed here:' \
+                'https://github.com/rubygems/rubygems/issues/2483.'
+            exit 1
+        fi
+
         gems=$(echo \
           cowsay \
           lolcat \
