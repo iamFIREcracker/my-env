@@ -16,7 +16,7 @@ ENABLE_OFFLINEIMAP=${ENABLE_OFFLINEIMAP:-0}
 ENABLE_QUICKLISP=${ENABLE_QUICKLISP:-0}
 ENABLE_TLS=${ENABLE_TLS:-0}
 ENABLE_TMUX=${ENABLE_TMUX:-0}
-ENABLE_TMUXINATOR=${ENABLE_TMUXINATOR:-0}
+ENABLE_GEMS=${ENABLE_GEMS:-0}
 ENABLE_URLVIEW=${ENABLE_URLVIEW:-0}
 ENABLE_VIM=${ENABLE_VIM:-0}
 ENABLE_WINPTY=${ENABLE_WINPTY:-0}
@@ -34,7 +34,7 @@ for i; do
         ENABLE_QUICKLISP=1
         ENABLE_TLS=1
         ENABLE_TMUX=1
-        ENABLE_TMUXINATOR=1
+        ENABLE_GEMS=1
         ENABLE_URLVIEW=1
         ENABLE_VIM=1
         ENABLE_Z=1
@@ -51,7 +51,7 @@ for i; do
         ENABLE_MUTT_NOTMUCH_PY=1
         ENABLE_OFFLINEIMAP=1
         ENABLE_QUICKLISP=1
-        ENABLE_TMUXINATOR=1
+        ENABLE_GEMS=1
         ENABLE_TLS=1
         ENABLE_URLVIEW=1
         ENABLE_Z=1
@@ -62,7 +62,7 @@ for i; do
         ENABLE_CG=1
         ENABLE_DOTFILES=1
         ENABLE_KEYRING=1
-        ENABLE_TMUXINATOR=1
+        ENABLE_GEMS=1
         ENABLE_URLVIEW=1
         ENABLE_WINPTY=1
         ENABLE_Z=1
@@ -71,7 +71,7 @@ for i; do
         ENABLE_CB=1
         ENABLE_CG=1
         ENABLE_DOTFILES=1
-        ENABLE_TMUXINATOR=1
+        ENABLE_GEMS=1
         ENABLE_WINPTY=1
         ENABLE_Z=1
     else
@@ -328,16 +328,26 @@ ensure_link "opt"      "opt"
 )
 
 (
-    if [ $ENABLE_TMUXINATOR -eq 1 ]; then
-        cd opt/winpty
-        test $FORCE -eq 1 && gem uninstall tmuxinator
-        if ! hash tmuxinator 2>/dev/null; then
-            if [ -n "$OS_WIN" ]; then
-                gem install tmuxinator -v 0.7.1
-            else
-                gem install tmuxinator
+    if [ $ENABLE_GEMS -eq 1 ]; then
+        gems=$(echo \
+          cowsay \
+          lolcat \
+          tmuxinator \
+        )
+        for gem in cowsay lolcat tmuxinator; do
+            if ! hash $gem 2>/dev/null; then
+                if [ $gem = "tmuxinator" ]; then
+                    if [ -n "$OS_WIN" ]; then
+                        gem install tmuxinator -v 0.7.1
+                    else
+                        gem install tmuxinator
+                    fi
+                else
+                    gem install $gem
+
+                fi
             fi
-        fi
+        done
     fi
 )
 
