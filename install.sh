@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 FORCE=0
+BOOTSTRAP=0
 ENABLE_AADBOOK=${ENABLE_AADBOOK:-0}
 ENABLE_B1=${ENABLE_B1:-0}
 ENABLE_BR=${ENABLE_BR:-0}
@@ -25,6 +26,8 @@ ENABLE_Z=${ENABLE_Z:-0}
 for i; do
     if [ "$i" == '--force' ]; then
         FORCE=1
+    elif [ "$i" == '--bootstrap' ]; then
+        BOOTSTRAP=1
     elif [ "$i" == '--os-linux' ]; then
         ENABLE_BR=1
         ENABLE_CB=1
@@ -109,11 +112,15 @@ function create_dir {
     mkdir -p $1
 }
 
-ensure_dir  "local/bin"
-ensure_dir  "local/man/man1"
-ensure_dir  "rubygems/bin"
-ensure_link "dotfiles" "dotfiles"
-ensure_link "opt"      "opt"
+(
+    if [ $BOOTSTRAP -eq 1 ]; then
+        ensure_dir  "local/bin"
+        ensure_dir  "local/man/man1"
+        ensure_dir  "rubygems/bin"
+        ensure_link "dotfiles" "dotfiles"
+        ensure_link "opt"      "opt"
+    fi
+)
 
 (
     if [ $ENABLE_AADBOOK -eq 1 ]; then
