@@ -114,6 +114,7 @@ function create_dir {
 
 (
     if [ $BOOTSTRAP -eq 1 ]; then
+        ensure_dir  ".mail"
         ensure_dir  "local/bin"
         ensure_dir  "local/man/man1"
         ensure_dir  "rubygems/bin"
@@ -232,7 +233,7 @@ function create_dir {
         cd opt/keyring
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
-            virtualenvw venv
+            virtualenvw venv --python=python3
             venv-pip install -r requirements.txt
         fi
     fi
@@ -265,9 +266,8 @@ function create_dir {
         if [ ! -d venv ]; then
             virtualenvw venv
             venv-pip install -r requirements.txt
-            venv-python setup.py build
-            venv-python setup.py install
-            mkdir -p ~/.mail
+            venv-python setup.py install \
+              --install-scripts=~/local/bin
         fi
     fi
 )
