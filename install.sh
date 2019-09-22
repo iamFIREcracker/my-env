@@ -128,7 +128,7 @@ function create_dir {
         cd opt/aadbook
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
-            virtualenvw venv
+            virtualenvw venv --python=python3
             venv-python setup.py install \
               --install-scripts=~/local/bin
         fi
