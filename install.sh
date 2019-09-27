@@ -336,7 +336,7 @@ function create_dir {
 
 (
     if [ $ENABLE_GEMS -eq 1 ]; then
-        rdoclastine=$(tail -1 /usr/share/rubygems/rubygems/rdoc.rb)
+        rdoclastine=$(tail -1 /usr/share/rubygems/rubygems/rdoc.rb || echo 'end')
         if [ "$rdoclastine" != 'end' ]; then
             echo \
                 'You seem to be running a bogus version of rubygems. ' \
@@ -352,7 +352,7 @@ function create_dir {
           tmuxinator \
         )
         for gem in cowsay lolcat tmuxinator; do
-            if ! hash $gem 2>/dev/null; then
+            if test $FORCE -eq 1 || ! hash $gem 2>/dev/null; then
                 if [ $gem = "tmuxinator" ]; then
                     if [ -n "$OS_WIN" ]; then
                         gem install tmuxinator -v 0.7.1
