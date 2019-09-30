@@ -124,6 +124,14 @@ function create_dir {
 )
 
 (
+    if [ $ENABLE_DOTFILES -eq 1 ]; then
+        cd dotfiles
+        bash install.sh "$@"
+        . ~/.bashrc
+    fi
+)
+
+(
     if [ $ENABLE_AADBOOK -eq 1 ]; then
         cd opt/aadbook
         test $FORCE -eq 1 && rm -rf venv
@@ -196,13 +204,6 @@ function create_dir {
             make install PREFIX=~/local
           fi
         fi
-    fi
-)
-
-(
-    if [ $ENABLE_DOTFILES -eq 1 ]; then
-        cd dotfiles
-        bash install.sh "$@"
     fi
 )
 
