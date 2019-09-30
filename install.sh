@@ -265,7 +265,7 @@ function create_dir {
         cd opt/offlineimap
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
-            virtualenvw venv
+            virtualenvw venv #--python=python3
             venv-pip install -r requirements.txt
             venv-python setup.py install \
               --install-scripts=~/local/bin

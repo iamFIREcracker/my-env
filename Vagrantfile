@@ -1,5 +1,9 @@
 #Version 1.0.2
 
+EXTRA_DRIVE_NAME = ENV['DABOX_EXTRA_DRIVE_NAME'] || 'drive.vdi'
+CREATE_EXTRA_DRIVE = !File.exist?(EXTRA_DRIVE_NAME)
+FDISK_EXTRA_DRIVE = CREATE_EXTRA_DRIVE || ENV['DABOX_FDISK_EXTRA_DRIVE'] == "1"
+
 # Plugin dependencies
 required_plugins = %w( vagrant-vbguest )
 required_plugins.each do |plugin|
@@ -7,7 +11,7 @@ required_plugins.each do |plugin|
 end
 
 Vagrant.configure(2) do |config|
-    config.vm.box = "ubuntu/bionic64"
+    config.vm.box = "hashicorp/bionic64"
     config.vm.hostname = "dabox"
     config.vm.box_check_update = false
     config.vm.network 'private_network', ip: "33.33.33.10"
@@ -28,15 +32,22 @@ Vagrant.configure(2) do |config|
         vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
 
         # Extra disk
-        file_to_disk = 'drive.vdi'
-        unless File.exist?(file_to_disk)
-            vb.customize ['createhd', '--filename', file_to_disk, '--size', 20 * 1024]
+        if CREATE_EXTRA_DRIVE
+            vb.customize ['createhd', '--filename', EXTRA_DRIVE_NAME, '--size', 20 * 1024]
         end
-        vb.customize ['storageattach', :id, '--storagectl', 'SCSI', '--port', 1, '--device', 0, '--type', 'hdd', '--medium', file_to_disk]
+        vb.customize [
+          'storageattach', :id,
+          '--storagectl', 'SATA Controller',
+          '--port', 1,
+          '--device', 0,
+          '--type', 'hdd',
+          '--medium', EXTRA_DRIVE_NAME,
+        ]
     end
 
     # Create extra disk partition
-    config.vm.provision "shell", privileged: true, inline: <<-SHELL
+    if FDISK_EXTRA_DRIVE
+      config.vm.provision "shell", privileged: true, inline: <<-SHELL
         # Feed commands to fdisk:
         # n - new partition
         # p - primary partition
@@ -56,18 +67,31 @@ EOF
          echo "/dev/sdb1	/data	ext4	defaults	0 0 " >> /etc/fstab
          mkdir -p /data
          mount -a
-         chown -R :ubuntu /data
+         chown -R :vagrant /data
          chmod -R g+rw /data
-     SHELL
+      SHELL
+    end
 
     # Ssh keys
     config.vm.provision "file",
-        source: "~/.ssh/id_rsa",
-        destination: "~/.ssh/id_rsa",
+        source: "~/.ssh/config",
+        destination: "~/.ssh/config",
         run: "always"
     config.vm.provision "file",
-        source: "~/.ssh/id_rsa.pub",
-        destination: "~/.ssh/id_rsa.pub",
+        source: "~/.ssh/id_github",
+        destination: "~/.ssh/id_github",
+        run: "always"
+    config.vm.provision "file",
+        source: "~/.ssh/id_github.pub",
+        destination: "~/.ssh/id_github.pub",
+        run: "always"
+    config.vm.provision "file",
+        source: "~/.ssh/id_gitlab",
+        destination: "~/.ssh/id_gitlab",
+        run: "always"
+    config.vm.provision "file",
+        source: "~/.ssh/id_gitlab.pub",
+        destination: "~/.ssh/id_gitlab.pub",
         run: "always"
 
     # Timezone
@@ -90,18 +114,15 @@ EOF
             bash-completion \
             docker.io \
             cmake \
-            cowsay \
             exuberant-ctags \
-            figlet \
             fortune \
             git \
             git-core \
-            lolcat \
             moreutils \
             pkg-config \
             python-setuptools \
+            sbcl \
             silversearcher-ag \
-            subversion \
             tmuxinator \
             tree \
             unzip
@@ -118,13 +139,15 @@ EOF
         (
             sudo add-apt-repository -y ppa:webupd8team/java
             sudo apt-get update
-            sudo apt-get install -y oracle-java8-installer maven
+            sudo apt-get install -y \
+              maven \
+              oracle-java8-installer 
         )
 
         # Node
         (
             sudo apt-get purge nodejs npm
-            curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+            curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
             sudo apt-get install -y nodejs
         )
 
@@ -138,24 +161,6 @@ EOF
             python-dev \
             libperl-dev \
             ruby-dev
-
-        # my-env
-        (
-            grep github.com ~/.ssh/config || \
-                echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
-
-            [ ! -d my-env ] && git clone --recursive git@github.com:iamFIREcracker/my-env.git
-            cd my-env
-            bash install.sh \
-                --force \
-                --disable-b1 \
-                --disable-nativefied-apps \
-                --enable-vim \
-                --enable-tmux
-        )
-
-        mkdir -p ~/workspace
-        ln -s /vagrant/public ~/public
 
         sudo apt-get autoremove -y
     SHELL
