@@ -127,7 +127,7 @@ function create_dir {
     if [ $ENABLE_DOTFILES -eq 1 ]; then
         cd dotfiles
         bash install.sh "$@"
-        . ~/.bashrc
+        ( set +ex . ~/.bashrc )
     fi
 )
 
