@@ -301,6 +301,7 @@ function create_dir {
     if [ $ENABLE_URLVIEW -eq 1 ]; then
         cd opt/urlview
         test $FORCE -eq 1 && test -f 'urlview' && (make clean || true)
+        test $FORCE -eq 1 && test -f 'urlview' && (rm -f urlview urlview.exe)
         if [ ! -f urlview -a ! -f urlview.exe ]; then
             ./configure \
               --prefix=$HOME/local \
