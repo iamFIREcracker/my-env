@@ -1,5 +1,3 @@
-#Version 1.0.2
-
 EXTRA_DRIVE_NAME = ENV['DABOX_EXTRA_DRIVE_NAME'] || 'drive.vdi'
 CREATE_EXTRA_DRIVE = !File.exist?(EXTRA_DRIVE_NAME)
 FDISK_EXTRA_DRIVE = CREATE_EXTRA_DRIVE || ENV['DABOX_FDISK_EXTRA_DRIVE'] == "1"
@@ -17,9 +15,11 @@ Vagrant.configure(2) do |config|
     config.vm.network 'private_network', ip: "33.33.33.10"
     config.ssh.forward_agent = true
 
+    # Keep default and insecure ssh key
+    config.ssh.insert_key = false
+
     ## Synced folders
     config.vm.synced_folder ".", "/vagrant"
-    config.vm.synced_folder "public", "/public"
 
     config.vm.provider :virtualbox do |vb|
         # vb.gui = true
@@ -27,6 +27,9 @@ Vagrant.configure(2) do |config|
         vb.customize ["modifyvm", :id, "--memory", "2048"]
         # vb.customize ["modifyvm", :id, "--cpus", "4"] XXX re-enable
         vb.customize ["modifyvm", :id, "--cpus", "2"]
+        # Try to fix some weird network issues where network cables look
+        # like they have been disconnected
+        vb.customize ['modifyvm', :id, '--cableconnected1', 'on']
         vb.customize ["modifyvm", :id, "--ioapic", "on"]
         vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
         vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
@@ -47,15 +50,15 @@ Vagrant.configure(2) do |config|
 
     # Create extra disk partition
     if FDISK_EXTRA_DRIVE
-      config.vm.provision "shell", privileged: true, inline: <<-SHELL
-        # Feed commands to fdisk:
-        # n - new partition
-        # p - primary partition
-        # 1 - partition number
-        #   - default first sector
-        #   - default last sector
-        # w - write changes
-        fdisk -u /dev/sdb <<EOF
+        config.vm.provision "shell", privileged: true, run: "always", inline: <<-SHELL
+            # Feed commands to fdisk:
+            # n - new partition
+            # p - primary partition
+            # 1 - partition number
+            #   - default first sector
+            #   - default last sector
+            # w - write changes
+            fdisk -u /dev/sdb <<EOF
 n
 p
 1
@@ -63,12 +66,12 @@ p
 
 w
 EOF
-         mkfs.ext4 /dev/sdb1
-         echo "/dev/sdb1	/data	ext4	defaults	0 0 " >> /etc/fstab
-         mkdir -p /data
-         mount -a
-         chown -R :vagrant /data
-         chmod -R g+rw /data
+            mkfs.ext4 /dev/sdb1
+            echo "/dev/sdb1	/data	ext4	rw,user,exec,umask=000	0 0 " >> /etc/fstab
+            mkdir -p /data
+            mount -a
+            chown -R :vagrant /data
+            chmod -R g+rw /data
       SHELL
     end
 
@@ -93,6 +96,17 @@ EOF
         source: "~/.ssh/id_gitlab.pub",
         destination: "~/.ssh/id_gitlab.pub",
         run: "always"
+    config.vm.provision "file",
+        source: "~/.ssh/id_rsa",
+        destination: "~/.ssh/id_rsa",
+        run: "always"
+    config.vm.provision "file",
+        source: "~/.ssh/id_rsa.pub",
+        destination: "~/.ssh/id_rsa.pub",
+        run: "always"
+    config.vm.provision "shell", privileged: false, run: "always", inline: <<-SHELL
+        chmod 600 ~/.ssh/{id_github,id_gitlab,id_rsa}
+    SHELL
 
     # Timezone
     config.vm.provision "shell", privileged: false, inline: <<-SHELL
@@ -105,12 +119,11 @@ EOF
         sudo apt-add-repository multiverse
 
         sudo apt-get update
-
+        sudo apt-get -y upgrade
         sudo apt-get remove --purge node
 
         sudo apt-get install -y \
             automake \
-            ack-grep \
             bash-completion \
             docker.io \
             cmake \
