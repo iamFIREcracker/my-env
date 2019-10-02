@@ -67,7 +67,7 @@ p
 w
 EOF
             mkfs.ext4 /dev/sdb1
-            echo "/dev/sdb1	/data	ext4	rw,user	0 0 " >> /etc/fstab
+            echo "/dev/sdb1	/data	ext4	rw,user,exec	0 0 " >> /etc/fstab
             mkdir -p /data
             mount -a
             chown -R :vagrant /data
