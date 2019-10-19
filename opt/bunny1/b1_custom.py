@@ -65,6 +65,10 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
         date = '%s.%03d' % (time.strftime('%d %b %Y %H:%M:%S', time.gmtime(s)), ms)
         raise bunny1.PRE(date)
 
+    def flights(self, arg):
+        """Opens Google flights"""
+        return "https://www.google.com/flights"
+
     def fb(self, arg):
         """Search www.facebook.com or go there"""
         if arg:
