@@ -329,9 +329,10 @@ function create_dir {
                     --enable-perlinterp=yes \
                     --enable-cscope \
                     --enable-fail-if-missing \
-                    --prefix=/usr
+                    --prefix=$HOME/local \
+                    --mandir=$HOME/local/man
             make
-            sudo make install
+            make install
         fi
     fi
 )
