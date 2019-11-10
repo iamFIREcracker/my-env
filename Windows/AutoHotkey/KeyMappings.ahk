@@ -9,6 +9,10 @@ SetTitleMatchMode 2
 
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
+; --------------------------------------------------------------
+; Window groups
+; --------------------------------------------------------------
+GroupAdd, ChromeGroup, ahk_exe chrome.exe
 
 ; --------------------------------------------------------------
 ; Natural scrolling
@@ -79,11 +83,7 @@ F15 & d::WinActivate ahk_exe WINWORD.EXE
 F15 & h::WinActivate ahk_class mintty_scratchpad
 F15 & i::WinActivate ahk_exe Teams.exe
 F15 & j::WinActivate ahk_class mintty_fullscreen
-F15 & k::
-    ; if (exe != "chrome.exe") {
-         WinActivate ahk_exe chrome.exe,, "Dev Tools -"
-    ; } else {
-    return
+F15 & k::GroupActivate, ChromeGroup, R
 ;F15 & m::
 ;    WinActivate ahk_class mintty_mail
 ;    Send ^f1
@@ -186,8 +186,6 @@ ResizePct(x_offset_pct, y_offset_pct, width_pct, height_pct)
 ; -------------------
 ; Die in hell, stupid applications!
 ; -------------------
-#IfWinActive Chrome
-
 #IfWinActive Intellij
     ^h::Send {Backspace}
 
@@ -208,6 +206,7 @@ ResizePct(x_offset_pct, y_offset_pct, width_pct, height_pct)
     !b::Send ^{Left}
     !f::Send ^{Right}
     ^e::Send {End}
+    ^u::Send +{Home}{Backspace}
 
 #IfWinActive Mail
     ^h::Send {Backspace}
