@@ -13,6 +13,9 @@ SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 ; Window groups
 ; --------------------------------------------------------------
 GroupAdd, ChromeGroup, ahk_exe chrome.exe
+GroupAdd, ExcelGroup, ahk_exe EXCEL.EXE
+GroupAdd, OutlookGroup, ahk_exe OUTLOOK.EXE
+GroupAdd, TeamsGroup, ahk_exe Teams.exe
 
 ; --------------------------------------------------------------
 ; Natural scrolling
@@ -80,15 +83,16 @@ F14 & p::Send ^+v
 ; Application shortcuts -- my left ctrl has been remapped to F15
 ; --------------------------------------------------------------
 F15 & d::WinActivate ahk_exe WINWORD.EXE
+F15 & e::GroupActivate, ExcelGroup, R
 F15 & h::WinActivate ahk_class mintty_scratchpad
-F15 & i::WinActivate ahk_exe Teams.exe
+F15 & i::GroupActivate, TeamsGroup, R
 F15 & j::WinActivate ahk_class mintty_fullscreen
 F15 & k::GroupActivate, ChromeGroup, R
 ;F15 & m::
 ;    WinActivate ahk_class mintty_mail
 ;    Send ^f1
 ;    return
-F15 & m::WinActivate ahk_exe OUTLOOK.EXE
+F15 & m::GroupActivate, OutlookGroup, R
 F15 & n::WinActivate Evernote
 ; WinActivate does not work with spotify.exe anymore; the window is
 ; focused but then pressing <space> does not triggere Play/Pause as
@@ -310,3 +314,6 @@ ResizePct(x_offset_pct, y_offset_pct, width_pct, height_pct)
     ^h::Send {Backspace}
     ^w::Send ^{Backspace}
     ^k::Send +{End}{Backspace}
+
+#IfWinActive ahk_exe Discord.exe
+    ^w::Send ^{Backspace}
