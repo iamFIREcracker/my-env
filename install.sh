@@ -20,6 +20,7 @@ ENABLE_TMUX=${ENABLE_TMUX:-0}
 ENABLE_GEMS=${ENABLE_GEMS:-0}
 ENABLE_URLVIEW=${ENABLE_URLVIEW:-0}
 ENABLE_VIM=${ENABLE_VIM:-0}
+ENABLE_SIC=${ENABLE_SIC:-0}
 ENABLE_WINPTY=${ENABLE_WINPTY:-0}
 ENABLE_Z=${ENABLE_Z:-0}
 
@@ -55,6 +56,7 @@ for i; do
         ENABLE_OFFLINEIMAP=1
         ENABLE_QUICKLISP=1
         ENABLE_GEMS=1
+        ENABLE_SIC=1
         ENABLE_TLS=1
         ENABLE_URLVIEW=1
         ENABLE_Z=1
@@ -66,6 +68,7 @@ for i; do
         ENABLE_DOTFILES=1
         ENABLE_KEYRING=1
         ENABLE_GEMS=1
+        ENABLE_SIC=1
         ENABLE_URLVIEW=1
         ENABLE_WINPTY=1
         ENABLE_Z=1
@@ -371,6 +374,16 @@ function create_dir {
     fi
 )
 
+(
+    if [ $ENABLE_SIC -eq 1 ]; then
+        cd opt/sic
+        test $FORCE -eq 1 && make clean
+        if [ ! -f sic ]; then
+            make
+            make install PREFIX=~/local MANPREFIX=~/local/man
+        fi
+    fi
+)
 (
     if [ $ENABLE_WINPTY -eq 1 ]; then
         cd opt/winpty
