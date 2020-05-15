@@ -11,6 +11,7 @@ ENABLE_DOTFILES=${ENABLE_DOTFILES:-0}
 ENABLE_GOOBOOK=${ENABLE_GOOBOOK:-0}
 ENABLE_JSLS=${ENABLE_JSLS:-0}
 ENABLE_KEYRING=${ENABLE_KEYRING:-0}
+ENABLE_LG=${ENABLE_LG:-0}
 ENABLE_MUTT_NOTMUCH_PY=${ENABLE_MUTT_NOTMUCH_PY:-0}
 ENABLE_NATIVEFIED_APPS=${ENABLE_NATIVEFIED_APPS:-0}
 ENABLE_OFFLINEIMAP=${ENABLE_OFFLINEIMAP:-0}
@@ -18,7 +19,6 @@ ENABLE_QUICKLISP=${ENABLE_QUICKLISP:-0}
 ENABLE_TLS=${ENABLE_TLS:-0}
 ENABLE_TMUX=${ENABLE_TMUX:-0}
 ENABLE_GEMS=${ENABLE_GEMS:-0}
-ENABLE_URLVIEW=${ENABLE_URLVIEW:-0}
 ENABLE_VIM=${ENABLE_VIM:-0}
 ENABLE_SIC=${ENABLE_SIC:-0}
 ENABLE_WINPTY=${ENABLE_WINPTY:-0}
@@ -35,11 +35,11 @@ for i; do
         ENABLE_CG=1
         ENABLE_DOTFILES=1
         ENABLE_JSLS=1
+        ENABLE_LG=1
         ENABLE_QUICKLISP=1
         ENABLE_TLS=1
         ENABLE_TMUX=1
         ENABLE_GEMS=1
-        ENABLE_URLVIEW=1
         ENABLE_VIM=1
         ENABLE_Z=1
     elif [ "$i" == '--os-mac' ]; then
@@ -50,6 +50,7 @@ for i; do
         ENABLE_CG=1
         ENABLE_DOTFILES=1
         ENABLE_GOOBOOK=1
+        ENABLE_LG=1
         ENABLE_JSLS=1
         ENABLE_KEYRING=1
         ENABLE_MUTT_NOTMUCH_PY=1
@@ -58,7 +59,6 @@ for i; do
         ENABLE_GEMS=1
         ENABLE_SIC=1
         ENABLE_TLS=1
-        ENABLE_URLVIEW=1
         ENABLE_Z=1
     elif [ "$i" == '--os-win-top' ]; then
         ENABLE_B1=1
@@ -68,8 +68,8 @@ for i; do
         ENABLE_DOTFILES=1
         ENABLE_KEYRING=1
         ENABLE_GEMS=1
+        ENABLE_LG=1
         ENABLE_SIC=1
-        ENABLE_URLVIEW=1
         ENABLE_WINPTY=1
         ENABLE_Z=1
     elif [ "$i" == '--os-win-station' ]; then
@@ -78,6 +78,7 @@ for i; do
         ENABLE_CG=1
         ENABLE_DOTFILES=1
         ENABLE_GEMS=1
+        ENABLE_LG=1
         ENABLE_WINPTY=1
         ENABLE_Z=1
     else
@@ -244,6 +245,24 @@ function create_dir {
 )
 
 (
+    if [ $ENABLE_LG -eq 1 ]; then
+        cd opt/lg
+        test $FORCE -eq 1 && make clean
+        if [ $ENABLE_QUICKLISP -eq 0 ]; then
+          if [ ! -d bin ]; then
+            ./download
+            make install PREFIX=~/local
+          fi
+        else
+          if [ ! -d bin ]; then
+            make
+            make install PREFIX=~/local
+          fi
+        fi
+    fi
+)
+
+(
     if [ $ENABLE_NATIVEFIED_APPS -eq 1 ]; then
         cd nativefied-apps/
         test $FORCE -eq 1 && rm -rf node_modules
@@ -295,22 +314,6 @@ function create_dir {
             ./configure \
               --prefix=$HOME/local \
               --mandir=$HOME/local/man
-            make
-            make install
-        fi
-    fi
-)
-
-(
-    if [ $ENABLE_URLVIEW -eq 1 ]; then
-        cd opt/urlview
-        test $FORCE -eq 1 && test -f 'urlview' && (make clean || true)
-        test $FORCE -eq 1 && test -f 'urlview' && (rm -f urlview urlview.exe)
-        if [ ! -f urlview -a ! -f urlview.exe ]; then
-            ./configure \
-              --prefix=$HOME/local \
-              --mandir=$HOME/local/man
-            autoreconf -vfi # https://github.com/sigpipe/urlview/issues/7
             make
             make install
         fi
