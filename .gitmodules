@@ -36,10 +36,6 @@
 [submodule "opt/mutt-notmuch-py"]
 	path = opt/mutt-notmuch-py
 	url = git@github.com:iamFIREcracker/mutt-notmuch-py.git
-[submodule "opt/urlview"]
-	path = opt/urlview
-	url = https://github.com/sigpipe/urlview.git
-	ignore = dirty
 [submodule "opt/aadbook"]
 	path = opt/aadbook
 	url = git@github.com:iamFIREcracker/aadbook.git
@@ -56,3 +52,6 @@
 [submodule "opt/sic"]
 	path = opt/sic
 	url = https://git.suckless.org/sic
+[submodule "opt/lg"]
+	path = opt/lg
+	url = git@github.com:iamFIREcracker/lg.git
