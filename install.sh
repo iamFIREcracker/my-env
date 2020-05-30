@@ -3,6 +3,7 @@
 FORCE=0
 BOOTSTRAP=0
 ENABLE_AADBOOK=${ENABLE_AADBOOK:-0}
+ENABLE_AP=${ENABLE_AP:-0}
 ENABLE_B1=${ENABLE_B1:-0}
 ENABLE_BR=${ENABLE_BR:-0}
 ENABLE_CB=${ENABLE_CB:-0}
@@ -30,6 +31,7 @@ for i; do
     elif [ "$i" == '--bootstrap' ]; then
         BOOTSTRAP=1
     elif [ "$i" == '--os-linux' ]; then
+        ENABLE_AP=1
         ENABLE_BR=1
         ENABLE_CB=1
         ENABLE_CG=1
@@ -44,6 +46,7 @@ for i; do
         ENABLE_Z=1
     elif [ "$i" == '--os-mac' ]; then
         ENABLE_AADBOOK=1
+        ENABLE_AP=1
         ENABLE_B1=1
         ENABLE_BR=1
         ENABLE_CB=1
@@ -61,6 +64,7 @@ for i; do
         ENABLE_TLS=1
         ENABLE_Z=1
     elif [ "$i" == '--os-win-top' ]; then
+        ENABLE_AP=1
         ENABLE_B1=1
         ENABLE_BR=1
         ENABLE_CB=1
@@ -73,6 +77,7 @@ for i; do
         ENABLE_WINPTY=1
         ENABLE_Z=1
     elif [ "$i" == '--os-win-station' ]; then
+        ENABLE_AP=1
         ENABLE_BR=1
         ENABLE_CB=1
         ENABLE_CG=1
@@ -189,7 +194,27 @@ function create_dir {
                 --eval '(quit)'
 
         fi
+        ensure_link "opt/ap" "quicklisp/local-projects/ap"
         ensure_link "opt/cg" "quicklisp/local-projects/cg"
+        ensure_link "opt/lg" "quicklisp/local-projects/lg"
+    fi
+)
+
+(
+    if [ $ENABLE_AP -eq 1 ]; then
+        cd opt/ap
+        test $FORCE -eq 1 && make clean
+        if [ $ENABLE_QUICKLISP -eq 0 ]; then
+          if [ ! -d bin ]; then
+            ./download
+            make install PREFIX=~/local
+          fi
+        else
+          if [ ! -d bin ]; then
+            make
+            make install PREFIX=~/local
+          fi
+        fi
     fi
 )
 

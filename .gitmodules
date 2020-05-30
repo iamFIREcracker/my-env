@@ -58,3 +58,6 @@
 [submodule "opt/scmindent"]
 	path = opt/scmindent
 	url = https://github.com/ds26gte/scmindent
+[submodule "opt/ap"]
+	path = opt/ap
+	url = git@github.com:iamFIREcracker/ap.git

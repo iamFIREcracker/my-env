@@ -177,9 +177,8 @@ ResizePct(x_offset_pct, y_offset_pct, width_pct, height_pct)
 ^+h::ResizePct(0, 0, 1/2, 1)
 ^+l::ResizePct(1/2, 0, 1/2, 1)
 
-^+y::ResizePct(0, 0, 1/3, 1)
-
-^+o::ResizePct(1/3, 0, 2/3, 1)
+^+y::ResizePct(0, 0, 1/4, 1)
+^+o::ResizePct(1/4, 0, 3/4, 1)
 
 ^+i::ResizePct(0, 0, 1, 1/2)
 ^+m::ResizePct(0, 1/2, 1, 1/2)
