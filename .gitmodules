@@ -61,3 +61,6 @@
 [submodule "opt/ap"]
 	path = opt/ap
 	url = git@github.com:iamFIREcracker/ap.git
+[submodule "opt/bunny1/bunny1"]
+	path = opt/bunny1/bunny1
+	url = git@github.com:iamFIREcracker/bunny1.git

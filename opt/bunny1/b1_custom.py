@@ -1,11 +1,11 @@
 #!/usr/bin/python
 
 import time
-import urlparse
+import cherrypy
+import urllib.parse as urlparse
+from urllib.parse import quote_plus as qp
 
 import bunny1
-from bunny1 import cherrypy
-from bunny1 import qp
 from bunny1 import expose
 from bunny1 import dont_expose
 
@@ -13,6 +13,10 @@ try:
     from b1_local import LocalCustomCommands
 except:
     LocalCustomCommands = object
+
+
+def ddg_excludes(arg):
+    return arg + ' -site:WooordHunt\.ru'
 
 
 class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
@@ -37,6 +41,18 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
             return "https://www.crunchbase.com/organization/%s" % qp(arg)
         else:
             return "https://www.crunchbase.com"
+
+    def covid(self, arg):
+        "Takes you to the /r/Coronavirus subreddit"
+        return "https://www.reddit.com/r/Coronavirus/new/"
+
+    def covidstats(self, arg):
+        "Opens worldometers/coronavirus"
+        return "https://www.worldometers.info/coronavirus/"
+
+    def covidstats1(self, arg):
+        "Opens lab24.ilsole24ore.com/coronavirus/"
+        return "https://lab24.ilsole24ore.com/coronavirus/"
 
     def crontab(self, arg):
         """Opens crontab.guru"""
@@ -85,6 +101,20 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
     def fbexp(self, arg):
         return "https://developers.facebook.com/tools/explorer"
 
+    def g(self, arg):
+        if arg:
+            return "https://duckduckgo.com/?q=%s&t=hz" % qp(ddg_excludes(arg))
+        else:
+            return "https://duckduckgo.com"
+
+    def gif(self, arg):
+        if arg == 'fuck-this':
+            return 'https://gph.is/16cBDFv'
+        elif arg:
+            return 'https://giphy.com/search/%s' % qp(arg)
+        else:
+            return 'https://giphy.com/'
+
     def gdevconsole(self, arg):
         """Go to the Google developer console"""
         return 'https://console.developers.google.com/project'
@@ -104,10 +134,6 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
         """Goes to personal dotfiles github repo"""
         return "https://github.com/iamFIREcracker/dotfiles"
 
-    def gp(self, arg):
-        """Go to G+"""
-        return "https://plus.google.com"
-
     def id(self, arg):
         """Search idioms"""
         if arg:
@@ -118,13 +144,6 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
     def ig(self, arg):
         """Go to www.instagram.com"""
         return "https://www.instagram.com/"
-
-    def im(self, arg):
-        """Searches Google Images or goes there"""
-        if arg:
-            return "https://www.google.com/search?site=imghp&tbm=isch&q=%s" % qp(arg)
-        else:
-            return "https://www.google.com/search?site=imghp&tbm=isch"
 
     def js(self, arg):
         """Search StackOverflow[Javascript] or goes there"""
@@ -178,7 +197,7 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
 
     def t(self, arg):
         """Search torrents"""
-        return "https://proxyonetpb.pet/s/?q=%s" % qp(arg)
+        return "https://piratebay.tech/search.php?q=%s" % qp(arg)
 
     def tv(self, arg):
         """Goes to or search tvshowtime"""
@@ -193,8 +212,11 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
     zp = zippyshare
 
     def yc(self, arg):
-        """Goes to Hacker News"""
-        return "https://news.ycombinator.com"
+        """Goes to or search Hacker News"""
+        if arg:
+            return self.g('g! site:news.ycombinator.com ' + arg)
+        else:
+            return "https://news.ycombinator.com"
 
     def playconsole(self, arg):
         return 'https://play.google.com/apps/publish'
