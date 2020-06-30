@@ -145,8 +145,8 @@ function create_dir {
         cd opt/aadbook
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
-            virtualenvw venv --python=python3
-            venv-python setup.py install \
+            python3w -m virtualenv venv
+            vpython setup.py install \
               --install-scripts=~/local/bin
         fi
     fi
@@ -157,8 +157,8 @@ function create_dir {
         cd opt/bunny1
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
-            virtualenv venv
-            venv-pip install -r requirements.txt
+            python3w -m virtualenv venv
+            vpip install -r requirements.txt
         fi
     fi
 )
@@ -241,8 +241,8 @@ function create_dir {
         cd opt/goobook
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
-            virtualenvw venv --python=python3
-            venv-python setup.py install \
+            python3w -m virtualenv venv
+            vpython setup.py install \
               --install-scripts=~/local/bin
         fi
     fi
@@ -263,8 +263,8 @@ function create_dir {
         cd opt/keyring
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
-            virtualenvw venv --python=python3
-            venv-pip install -r requirements.txt
+            python3w -m virtualenv venv
+            vpip install -r requirements.txt
         fi
     fi
 )
@@ -301,7 +301,7 @@ function create_dir {
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
             virtualenvw venv
-            venv-python setup.py install \
+            vpython setup.py install \
               --install-scripts=~/local/bin
         fi
     fi
@@ -313,8 +313,8 @@ function create_dir {
         test $FORCE -eq 1 && rm -rf venv
         if [ ! -d venv ]; then
             virtualenvw venv #--python=python3
-            venv-pip install -r requirements.txt
-            venv-python setup.py install \
+            vpip install -r requirements.txt
+            vpython setup.py install \
               --install-scripts=~/local/bin
         fi
     fi
