@@ -30,9 +30,6 @@
 [submodule "opt/br"]
 	path = opt/br
 	url = git@github.com:iamFIREcracker/br.git
-[submodule "opt/offlineimap"]
-	path = opt/offlineimap
-	url = https://github.com/OfflineIMAP/offlineimap.git
 [submodule "opt/mutt-notmuch-py"]
 	path = opt/mutt-notmuch-py
 	url = git@github.com:iamFIREcracker/mutt-notmuch-py.git
@@ -49,9 +46,6 @@
 [submodule "opt/mg"]
 	path = opt/mg
 	url = git@github.com:iamFIREcracker/mg.git
-[submodule "opt/sic"]
-	path = opt/sic
-	url = https://git.suckless.org/sic
 [submodule "opt/lg"]
 	path = opt/lg
 	url = git@github.com:iamFIREcracker/lg.git
