@@ -325,7 +325,7 @@ function create_dir {
         cd opt/typescript-language-server
         test $FORCE -eq 1 && rm -rf node_modules
         if [ ! -d node_modules ]; then
-            npm install
+            yarn install
         fi
     fi
 )
