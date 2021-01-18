@@ -355,7 +355,6 @@ function create_dir {
                     --with-features=huge \
                     --enable-multibyte \
                     --enable-largefile \
-                    --enable-rubyinterp=yes \
                     --enable-pythoninterp=yes \
                     --enable-perlinterp=yes \
                     --enable-cscope \
