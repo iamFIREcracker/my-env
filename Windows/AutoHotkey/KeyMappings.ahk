@@ -9,10 +9,12 @@ SetTitleMatchMode 2
 
 SetWorkingDir %A_ScriptDir%  ; Ensures a consistent starting directory.
 
+SetCapsLockState, AlwaysOff ; Disable Capslock, always
+
 ; --------------------------------------------------------------
 ; Window groups
 ; --------------------------------------------------------------
-GroupAdd, ChromeGroup, ahk_exe chrome.exe
+GroupAdd, ChromeGroup, ahk_exe brave.exe
 GroupAdd, ExcelGroup, ahk_exe EXCEL.EXE
 GroupAdd, OutlookGroup, ahk_exe OUTLOOK.EXE
 GroupAdd, TeamsGroup, ahk_exe Teams.exe
@@ -21,15 +23,112 @@ GroupAdd, TeamsGroup, ahk_exe Teams.exe
 ; Natural scrolling
 ; --------------------------------------------------------------
 #MaxHotkeysPerInterval 400
-WheelDown::WheelUp
-WheelUp::WheelDown
-
+; WheelDown::WheelUp
+; WheelUp::WheelDown
 
 ; --------------------------------------------------------------
-; Control as esc
+; NOTES
 ; --------------------------------------------------------------
-Ctrl UP::Send {Escape}
-Ctrl & F13::return
+; ! = ALT
+; ^ = CTRL
+; + = SHIFT
+; # = WIN
+
+; --------------------------------------------------------------
+; ' as control when held down
+; --------------------------------------------------------------
+; left
+' UP::Send '
+' & q::Send ^q
+' & w::Send ^w
+' & e::Send ^e
+' & r::Send ^r
+' & t::Send ^t
+' & a::Send ^a
+' & s::Send ^s
+' & d::Send ^d
+' & f::Send ^f
+' & g::Send ^g
+' & z::Send ^z
+' & x::Send ^x
+' & c::Send ^c
+' & v::Send ^v
+; right
+' & y::Send ^y
+' & u::Send ^u
+' & i::Send ^i
+' & o::Send ^o
+' & p::Send ^p
+' & [::Send ^[
+' & ]::Send ^]
+' & h::Send ^h
+' & j::Send ^j
+' & k::Send ^k
+' & l::Send ^l
+' & b::Send ^b
+' & n::Send ^n
+' & m::Send ^m
+
+; --------------------------------------------------------------
+; Capslock as esc when tapped, and Ctrl when held down
+; --------------------------------------------------------------
+; left
+Capslock UP::Send {Escape}
+Capslock & q::Send ^q
+Capslock & w::Send ^w
+Capslock & e::Send ^e
+Capslock & r::Send ^r
+Capslock & t::Send ^t
+Capslock & a::Send ^a
+Capslock & s::Send ^s
+Capslock & d::Send ^d
+Capslock & f::Send ^f
+Capslock & g::Send ^g
+Capslock & z::Send ^z
+Capslock & x::Send ^x
+Capslock & c::Send ^c
+Capslock & v::Send ^v
+; right
+Capslock & y::Send ^y
+Capslock & u::Send ^u
+Capslock & i::Send ^i
+Capslock & o::Send ^o
+Capslock & p::Send ^p
+Capslock & [::Send ^[
+Capslock & ]::Send ^]
+Capslock & h::Send ^h
+Capslock & j::Send ^j
+Capslock & k::Send ^k
+Capslock & l::Send ^l
+Capslock & b::Send ^b
+Capslock & n::Send ^n
+Capslock & m::Send ^m
+Capslock & Enter::Send ^{Enter}
+
+; --------------------------------------------------------------
+; Tab as modifier
+; --------------------------------------------------------------
+Tab UP::Send {Tab}
+Tab & h::Send {Left}
+Tab & j::Send {Down}
+Tab & k::Send {Up}
+Tab & l::Send {Right}
+Tab & p::Send ^+v
+
+; --------------------------------------------------------------
+; [ as modifier
+; --------------------------------------------------------------
+[ UP::Send [
+[ & b::Send ^{Left}
+[ & w::Send ^{Right}
+
+!h::Send {Left}
+!j::Send {Down}
+!k::Send {Up}
+!l::Send {Right}
+!p::Send ^+v
+!b::Send ^{Left}
+!w::Send ^{Right}
 
 ; --------------------------------------------------------------
 ; Shifts as parents
@@ -39,75 +138,37 @@ LShift & F13::return
 RShift UP::Send )
 RShift & F13::return
 
-F15 & Backspace::Reload
-F15 & space::
-    device = 3 ; https://autohotkey.com/docs/commands/SoundSet.htm#Ex
-    SoundSet, +1, Master, Mute, %device%
-    SoundGet, mute, Master, Mute, %device%
-
-    if mute = On
-        mute = Off
-    Else
-        mute = On
-
-    TrayTip, Toggle mic, Microphone[%device%] is %mute%, 3
-return
-
 ; --------------------------------------------------------------
-; Vim mode
+; Left Ctrl as hyper (switch between apps, reload this file..)
 ; --------------------------------------------------------------
-F14 UP::Send {Tab}
-F14 & h::Send {Left}
-F14 & j::Send {Down}
-F14 & k::Send {Up}
-F14 & l::Send {Right}
-F14 & b::Send ^{Left}
-F14 & w::Send ^{Right}
-F14 & p::Send ^+v
-;F14 & p::Send +{Insert}
-;  ClipSaved := ClipboardAll  ;save original clipboard contents
-;  clipboard = %clipboard%  ;remove formatting
-;  Send   ^+v
-;  Clipboard := ClipSaved  ;restore the original clipboard contents
-;  ClipSaved =  ;clear the variable
-;Return
-
-; --------------------------------------------------------------
-; Sane pasting
-; --------------------------------------------------------------
-;^v::Send  ^+v ;Send Ctrl+Shift+v -- unformatted paste
-;^+v::Send ^v  ;Send Ctrl+v -- regular paste command (should you ever need it)
-
-
-; --------------------------------------------------------------
-; Application shortcuts -- my left ctrl has been remapped to F15
-; --------------------------------------------------------------
-F15 & d::WinActivate ahk_exe WINWORD.EXE
-F15 & e::GroupActivate, ExcelGroup, R
-F15 & h::WinActivate ahk_class mintty_scratchpad
-F15 & i::GroupActivate, TeamsGroup, R
-F15 & j::WinActivate ahk_class mintty_fullscreen
-F15 & k::GroupActivate, ChromeGroup, R
-;F15 & m::
+<^Backspace::Reload
+<^d::WinActivate ahk_exe WINWORD.EXE
+<^e::GroupActivate, ExcelGroup, R
+<^h::WinActivate ahk_class mintty_scratchpad
+<^i::GroupActivate, TeamsGroup, R
+<^j::WinActivate ahk_class mintty_fullscreen
+<^k::GroupActivate, ChromeGroup, R
+;<^m::
 ;    WinActivate ahk_class mintty_mail
 ;    Send ^f1
 ;    return
-F15 & m::GroupActivate, OutlookGroup, R
-F15 & n::WinActivate Evernote
+<^m::GroupActivate, OutlookGroup, R
+<^n::WinActivate Evernote
 ; WinActivate does not work with spotify.exe anymore; the window is
 ; focused but then pressing <space> does not triggere Play/Pause as
 ; expected.  Why would WinActivateBottom work instead?  No idea..
-F15 & o::WinActivateBottom ahk_exe spotify.exe
-;F15 & p::
+<^o::WinActivateBottom ahk_exe spotify.exe
+;<^p::
 ;    WinActivate ahk_class mintty_mail
 ;    Send ^f2
 ;    return
-F15 & p::WinActivate ahk_class mintty_mail
-F15 & u::WinActivate ahk_exe idea64.exe
-F15 & y::WinActivate ahk_class mintty_workstation
-F15 & Up::Send {Volume_Up}
-F15 & Down::Send {Volume_Down}
-F15 & Delete::Send {Volume_Mute}
+<^p::WinActivate ahk_class mintty_mail
+<^u::WinActivate ahk_exe idea64.exe
+<^y::WinActivate ahk_class mintty_workstation
+
+<^Up::Send {Volume_Up}
+<^Down::Send {Volume_Down}
+<^Delete::Send {Volume_Mute}
 
 
 ;-----------------------
@@ -126,14 +187,6 @@ else
     sleep, 500
     send, ^n
 }
-
-; --------------------------------------------------------------
-; NOTES
-; --------------------------------------------------------------
-; ! = ALT
-; ^ = CTRL
-; + = SHIFT
-; # = WIN
 
 ; ---------------------
 ; Resize windows like there is no tomorrow
@@ -171,50 +224,54 @@ ResizePct(x_offset_pct, y_offset_pct, width_pct, height_pct)
     WinMove,A,,%x%,%y%,%width%,%height%
 }
 
-^+k::ResizePct(0, 0, 1, 1)
-^+j::ResizePct(1/5, 1/10, 3/5, 8/10)
+#If GetKeyState("Shift", "P") = 1
+    Capslock & k::ResizePct(0, 0, 1, 1)
+    Capslock & j::ResizePct(1/5, 1/10, 3/5, 8/10)
 
-^+h::ResizePct(0, 0, 1/2, 1)
-^+l::ResizePct(1/2, 0, 1/2, 1)
+    Capslock & h::ResizePct(0, 0, 1/2, 1)
+    Capslock & l::ResizePct(1/2, 0, 1/2, 1)
 
-^+y::ResizePct(0, 0, 1/4, 1)
-^+o::ResizePct(1/4, 0, 3/4, 1)
+    Capslock & y::ResizePct(0, 0, 1/4, 1)
+    Capslock & o::ResizePct(1/4, 0, 3/4, 1)
 
-^+i::ResizePct(0, 0, 1, 1/2)
-^+m::ResizePct(0, 1/2, 1, 1/2)
+    Capslock & i::ResizePct(0, 0, 1, 1/2)
+    Capslock & m::ResizePct(0, 1/2, 1, 1/2)
 
-^+u::ResizePct(1/8, 0, 3/4, 1)
-^+n::ResizePct(1/6, 0, 2/3, 1)
+    Capslock & u::ResizePct(1/8, 0, 3/4, 1)
+    Capslock & n::ResizePct(1/6, 0, 2/3, 1)
 
 ; -------------------
 ; Die in hell, stupid applications!
 ; -------------------
 #IfWinActive Intellij
-    ^h::Send {Backspace}
+    Capslock & h::Send {Backspace}
 
 #IfWinActive Evernote
-    ^h::Send {Backspace}
-    ^w::Send ^{Backspace}
-    ^k::Send +{End}{Backspace}
+    Capslock & h::Send {Backspace}
+    Capslock & w::Send ^{Backspace}
+    Capslock & k::Send +{End}{Backspace}
 
 #IfWinActive ahk_class MozillaWindowClass
-    ^h::Send {Backspace}
-    ^w::Send ^{Backspace}
+    Capslock & h::Send {Backspace}
+    Capslock & w::Send ^{Backspace}
 
-#IfWinActive ahk_exe chrome.exe
-    ^a::Send {Home}
-    ^h::Send {Backspace}
-    ^k::Send +{End}{Backspace}
-    ^w::Send ^{Backspace}
+#IfWinActive ahk_exe brave.exe
+    Capslock & a::Send {Home}
+    Capslock & d::Send {Delete}
+    Capslock & e::Send {End}
+    Capslock & h::Send {Backspace}
+    Capslock & k::Send +{End}{Backspace}
+    Capslock & w::Send ^{Backspace}
+    Capslock & j::Send ^{Enter}
     !b::Send ^{Left}
     !f::Send ^{Right}
-    ^e::Send {End}
     ^u::Send +{Home}{Backspace}
+    ' & w::Send ^{Backspace}
 
 #IfWinActive Mail
-    ^h::Send {Backspace}
-    ^w::Send ^{Backspace}
-    ^k::Send +{End}{Backspace}
+    Capslock & h::Send {Backspace}
+    Capslock & w::Send ^{Backspace}
+    Capslock & k::Send +{End}{Backspace}
 
 #IfWinActive Monitor
     j::Send {Down}
@@ -222,97 +279,65 @@ ResizePct(x_offset_pct, y_offset_pct, width_pct, height_pct)
     ^B::Send {PgUp}
     ^F::Send {PgDn}
 
-#IfWinActive RIDE
-    ^h::Send {Backspace}
-
-#IfWinActive ahk_class tSkMainForm
-    ConversationUp()
-    {
-        Send, {AltDown}2{AltUp}
-        Sleep, 100
-        Send, {Up}{Enter}
-        return
-    }
-
-    ConversationDown()
-    {
-        Send, {AltDown}2{AltUp}
-        Sleep, 100
-        Send, {Down}{Enter}
-        return
-    }
-    ^j::ConversationDown()
-    ^k::ConversationUp()
-    CTRL UP::return
-    ^h::Send {Backspace}
-    ^w::Send !{Backspace}
-
-#IfWinActive Slack
-    ^h::Send {Backspace}
-    ^w::Send ^{Backspace}
-    ^k::Send +{End}{Backspace}
-
-#IfWinActive SQuirreL
-    ^h::Send {Backspace}
-    ^w::Send ^{Backspace}
-    ^k::Send +{End}{Backspace}
-
-#IfWinActive TortoiseSVN
-    ^h::Send {Backspace}
-    ^w::Send ^{Backspace}
-
 #IfWinActive ahk_exe Teams.exe
-    ^a::Send {Home}
-    ^e::Send {End}
-    ^h::Send {Backspace}
-    ^w::Send ^{Backspace}
-    ^k::Send +{End}{Backspace}
-    ^u::Send +{Home}{Backspace}
+    Capslock & a::Send {Home}
+    Capslock & d::Send {Delete}
+    Capslock & e::Send {End}
+    Capslock & h::Send {Backspace}
+    Capslock & k::Send +{End}{Backspace}
+    Capslock & w::Send ^{Backspace}
+    Capslock & u::Send +{Home}{Backspace}
+    Capslock & j::Send ^{Enter}
+    ' & w::Send ^{Backspace}
 
 #IfWinActive Word
-    ^h::Send {Backspace}
-    ^w::Send ^{Backspace}
+    Capslock & h::Send {Backspace}
+    Capslock & w::Send ^{Backspace}
 
 #IfWinActive ahk_exe mintty.exe
     ; Send ◊ on <C-CR> -- Vim uses it
-    ^Return::Send {U+25CA}
+    Capslock & Enter::Send {U+25CA}
     ; Send Ø on <S-CR> -- Vim uses it
     +Return::Send {U+00F8}
     ;; Reset ^v behavior -- we use ^V with vim
     ;^v::Send ^v
-    F14 & p::Send +{Insert}
+    Tab & p::Send +{Insert}
 
 #IfWinActive ahk_exe SearchUI.exe
-    ^w::Send ^{Backspace}
+    Capslock & w::Send ^{Backspace}
 
 #IfWinActive ahk_exe OUTLOOK.EXE
-    ^a::Send {Home}
-    ^e::Send {End}
-    ^h::Send {Backspace}
-    ^w::Send ^{Backspace}
+    Capslock & a::Send {Home}
+    Capslock & e::Send {End}
+    Capslock & h::Send {Backspace}
+    Capslock & w::Send ^{Backspace}
     ^SPACE::Send ^k
-    ^k::Send +{End}{Backspace}
-    F14 & p::
-        Send ^v
-        sleep, 100
-        Send ^k
-        sleep, 100
-        Send t
-        return
+    Capslock & k::Send +{End}{Backspace}
+    ; Tab & p::
+    ;     Send ^v
+    ;     sleep, 100
+    ;     Send ^k
+    ;     sleep, 100
+    ;     Send t
+    ;     return
 
 #IfWinActive ahk_exe WINWORD.EXE
-    ^a::Send {Home}
-    ^e::Send {End}
-    ^h::Send {Backspace}
-    ^w::Send ^{Backspace}
-    ^k::Send +{End}{Backspace}
+    Capslock & a::Send {Home}
+    Capslock & e::Send {End}
+    Capslock & h::Send {Backspace}
+    Capslock & w::Send ^{Backspace}
+    Capslock & k::Send +{End}{Backspace}
 
 #IfWinActive ahk_exe POWERPNT.EXE
-    ^a::Send {Home}
-    ^e::Send {End}
-    ^h::Send {Backspace}
-    ^w::Send ^{Backspace}
-    ^k::Send +{End}{Backspace}
+    Capslock & a::Send {Home}
+    Capslock & e::Send {End}
+    Capslock & h::Send {Backspace}
+    Capslock & w::Send ^{Backspace}
+    Capslock & k::Send +{End}{Backspace}
 
 #IfWinActive ahk_exe Discord.exe
-    ^w::Send ^{Backspace}
+    Capslock & w::Send ^{Backspace}
+
+#IfWinActive ahk_exe spotify.exe
+    Capslock & w::Send ^{Backspace}
+    Capslock & h::Send {Backspace}
