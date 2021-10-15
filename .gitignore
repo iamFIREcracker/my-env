@@ -1,1 +1,8 @@
-nativefied-apps/*-x64/
+.DS_STORE
+.ropeproject
+.vagrant
+__pycache__
+
+*pyc
+*vdi
+*-cloudimg-console.log
