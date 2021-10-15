@@ -23,6 +23,7 @@ ENABLE_GEMS=${ENABLE_GEMS:-0}
 ENABLE_VIM=${ENABLE_VIM:-0}
 ENABLE_SIC=${ENABLE_SIC:-0}
 ENABLE_WINPTY=${ENABLE_WINPTY:-0}
+ENABLE_RLWRAP=${ENABLE_RLWRAP:-0}
 ENABLE_Z=${ENABLE_Z:-0}
 
 for i; do
@@ -39,6 +40,7 @@ for i; do
         ENABLE_JSLS=1
         ENABLE_LG=1
         ENABLE_QUICKLISP=1
+        ENABLE_RLWRAP=1
         ENABLE_TLS=1
         ENABLE_TMUX=1
         ENABLE_GEMS=1
@@ -59,6 +61,7 @@ for i; do
         ENABLE_MUTT_NOTMUCH_PY=1
         ENABLE_OFFLINEIMAP=1
         ENABLE_QUICKLISP=1
+        ENABLE_RLWRAP=1
         ENABLE_GEMS=1
         ENABLE_SIC=1
         ENABLE_TLS=1
@@ -75,6 +78,7 @@ for i; do
         ENABLE_LG=1
         ENABLE_SIC=1
         ENABLE_WINPTY=1
+        ENABLE_RLWRAP=1
         ENABLE_Z=1
     elif [ "$i" == '--os-win-station' ]; then
         ENABLE_AP=1
@@ -85,6 +89,7 @@ for i; do
         ENABLE_GEMS=1
         ENABLE_LG=1
         ENABLE_WINPTY=1
+        ENABLE_RLWRAP=1
         ENABLE_Z=1
     else
         echo "Unsupported option: $i"
@@ -402,6 +407,19 @@ function create_dir {
 )
 
 (
+    if [ $ENABLE_RLWRAP -eq 1 ]; then
+        cd opt/rlwrap
+        test $FORCE -eq 1 && make clean
+        if [ ! -f src/rlwrap ]; then
+            ./configure \
+              --prefix=$HOME/local
+            make
+            make install
+        fi
+    fi
+)
+
+(
     if [ $ENABLE_SIC -eq 1 ]; then
         cd opt/sic
         test $FORCE -eq 1 && make clean
@@ -411,6 +429,7 @@ function create_dir {
         fi
     fi
 )
+
 (
     if [ $ENABLE_WINPTY -eq 1 ]; then
         cd opt/winpty
