@@ -1,8 +1,10 @@
 #!/usr/bin/python
 
+import re
 import time
 import cherrypy
 import urllib.parse as urlparse
+from datetime import datetime
 from urllib.parse import quote_plus as qp
 
 import bunny1
@@ -15,10 +17,6 @@ except:
     LocalCustomCommands = object
 
 
-def ddg_excludes(arg):
-    return arg + ' -site:WooordHunt\.ru'
-
-
 class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
     def aoc(self, arg):
         """Goes to Advent of Code"""
@@ -26,6 +24,17 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
             return "https://www.reddit.com/r/adventofcode/search?q=%s&restrict_sr=on&include_over_18=on" % qp(arg)
         else:
             return "https://adventofcode.com/"
+
+    def aocl(self, arg):
+        """Goes to Advent of Code leaderboard"""
+        if arg == "self":
+            return "https://adventofcode.com/2020/leaderboard/private/view/457467"
+        elif arg == "mc":
+            return "https://adventofcode.com/2020/leaderboard/private/view/22034"
+        elif arg == "ion":
+            return "https://adventofcode.com/2020/leaderboard/private/view/642238"
+        else:
+            return "https://adventofcode.com/2020/leaderboard"
 
     def aruba(self, arg):
         """Goes to the Aruba-manage-hosts page"""
@@ -41,6 +50,9 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
             return "https://www.crunchbase.com/organization/%s" % qp(arg)
         else:
             return "https://www.crunchbase.com"
+
+    def cedolini(self, arg):
+        return "https://www.sipert.it.adp.com"
 
     def covid(self, arg):
         "Takes you to the /r/Coronavirus subreddit"
@@ -64,7 +76,7 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
     def domain(self, arg):
         """Search www.dotster.com or go there"""
         if arg:
-            return "https://www.dotster.com/register/domains/?dom_lookup=%s" % qp(arg)
+            return "https://www.dotster.com/registration?flow=domainDFE&search=%s#/domainDFE/1" % qp(arg)
         else:
             return "https://www.dotster.com/"
 
@@ -77,9 +89,19 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
 
     def epoch(self, arg):
         """Converts epoch-with-millis to date"""
-        s, ms = divmod(int(arg) or time.gmtime(), 1000)
-        date = '%s.%03d' % (time.strftime('%d %b %Y %H:%M:%S', time.gmtime(s)), ms)
-        raise bunny1.PRE(date)
+        result = "\n".join(['Cannot parse input: %s' % (arg,),
+                            '',
+                            'Supported formats:',
+                            '',
+                            '- epochmilliseconds (e.g %s)' % (int(round(time.time())) * 1000,),
+                            '- DD MMM YYYY (e.g. 26 Dec 2018)'])
+        if re.fullmatch('\d{13}', arg):
+            s, ms = divmod(int(arg), 1000)
+            result = '%s.%03d' % (time.strftime('%d %b %Y %H:%M:%S', time.gmtime(s)), ms)
+        elif re.fullmatch("\d{2} \w{3} \d{4}", arg):
+            td = datetime.strptime(arg, '%d %b %Y') - datetime(1970, 1, 1)
+            result = '%d' % (td.total_seconds() * 1000)
+        raise bunny1.PRE(result)
 
     def flights(self, arg):
         """Opens Google flights"""
@@ -103,7 +125,7 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
 
     def g(self, arg):
         if arg:
-            return "https://duckduckgo.com/?q=%s&t=hz" % qp(ddg_excludes(arg))
+            return "https://duckduckgo.com/?q=%s&t=hz" % qp(arg)
         else:
             return "https://duckduckgo.com"
 
@@ -134,6 +156,13 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
         """Goes to personal dotfiles github repo"""
         return "https://github.com/iamFIREcracker/dotfiles"
 
+    def http(self, arg):
+        """Searches the HTTP status Codes page"""
+        if arg:
+            return "https://httpstatuses.com/%s" % qp(arg)
+        else:
+            return "https://httpstatuses.com/"
+
     def id(self, arg):
         """Search idioms"""
         if arg:
@@ -156,13 +185,20 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
         else:
             return "http://localhost"
 
-    def m(self, arg):
-        """Goes to Google Music"""
-        return "https://play.google.com/music/listen"
+    def maps(self, arg):
+        """Goes to or search openstreetmaps"""
+        if arg:
+            return "https://www.openstreetmap.org/search?query=%s" % qp(arg)
+        else:
+            return "https://openstreetmap.org"
 
     def ml(self, arg):
         """Goes to matteolandi.net"""
         return "https://matteolandi.net"
+
+    def mlp(self, arg):
+        """Goes to matteolandi.net/plan.html"""
+        return "https://matteolandi.net/plan.html"
 
     def nf(self, arg):
         """Go to netflix"""
@@ -171,6 +207,21 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
     def nfsub(self, arg):
         """Show Netflix titles by subtitle"""
         return "https://www.netflix.com/subtitles"
+
+    def nodejs(self, arg):
+        """Goes to nodejs.org, or search content in it"""
+        if arg:
+            return "https://duckduckgo.com/?q=site:nodejs.org+%s" % qp(arg)
+        else:
+            return "https://www.nodejs.org/"
+    node = nodejs
+
+    def quickdocs(self, arg):
+        if arg:
+            return "http://quickdocs.org/search?q=%s" % qp(arg)
+        else:
+            return "http://quickdocs.org"
+    qd = quickdocs
 
     def res(self, arg):
         """Goes to Resolutions"""
@@ -227,6 +278,18 @@ class CustomCommands(bunny1.Bunny1Commands, LocalCustomCommands):
             return 'http://www.howjsay.com/index.php?word=%s' % qp(arg)
         else:
             return 'http://www.howjsay.com/index.php'
+
+    def w3m(self, arg):
+        """Goes to w3m.rocks page"""
+        return "http://w3m.rocks/"
+
+    def w3mdoc(self, arg):
+        """Goes to w3m doc page"""
+        return "https://github.com/tokuhirom/w3m/tree/master/doc"
+
+    def w3mfunc(self, arg):
+        """Goes to w3m doc/func page"""
+        return "https://github.com/tokuhirom/w3m/blob/master/doc/README.func"
 
     # an example of showing content instead of redirecting and also
     # using content from the filesystem
