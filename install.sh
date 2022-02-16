@@ -411,6 +411,7 @@ function create_dir {
         cd opt/rlwrap
         test $FORCE -eq 1 && make clean
         if [ ! -f src/rlwrap ]; then
+            autoreconf --install
             ./configure \
               --prefix=$HOME/local
             make
