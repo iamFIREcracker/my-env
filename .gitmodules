@@ -22,7 +22,7 @@
 	path = opt/cg
 	url = git@github.com:iamFIREcracker/cg.git
 [submodule "opt/vlime"]
-	path = opt/vlime
+	path = opt/vlime/__main__
 	url = https://github.com/l04m33/vlime.git
 [submodule "opt/winpty"]
 	path = opt/winpty
@@ -50,7 +50,7 @@
 	path = opt/lg
 	url = git@github.com:iamFIREcracker/lg.git
 [submodule "opt/scmindent"]
-	path = opt/scmindent
+	path = opt/scmindent/__main__
 	url = git@github.com:iamFIREcracker/scmindent.git
 [submodule "opt/ap"]
 	path = opt/ap
@@ -64,3 +64,15 @@
 [submodule "opt/rlwrap"]
 	path = opt/rlwrap
 	url = https://github.com/hanslub42/rlwrap
+[submodule "opt/bypass-paywalls-chrome"]
+	path = opt/bypass-paywalls-chrome
+	url = https://github.com/iamadamdev/bypass-paywalls-chrome.git
+[submodule "opt/slime"]
+	path = opt/slime/__main__
+	url = https://github.com/phmarek/slime.git
+[submodule "opt/yason"]
+	path = opt/yason/__main__
+	url = https://github.com/phmarek/yason.git
+[submodule "opt/trivial-build/__main__"]
+	path = opt/trivial-build/__main__
+	url = git@github.com:iamFIREcracker/trivial-build.git
