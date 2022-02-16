@@ -74,6 +74,9 @@ GroupAdd, TeamsGroup, ahk_exe Teams.exe
 ; --------------------------------------------------------------
 ; left
 Capslock UP::Send {Escape}
+Capslock & 0::Send ^0
+Capslock & -::Send ^-
+Capslock & =::Send ^{=}
 Capslock & q::Send ^q
 Capslock & w::Send ^w
 Capslock & e::Send ^e
@@ -113,7 +116,11 @@ Tab & h::Send {Left}
 Tab & j::Send {Down}
 Tab & k::Send {Up}
 Tab & l::Send {Right}
-Tab & p::Send ^+v
+Tab & z::Send ^z
+Tab & c::Send ^c
+Tab & v::Send ^+v
+Tab & b::Send ^{Left}
+Tab & w::Send ^{Right}
 
 ; --------------------------------------------------------------
 ; [ as modifier
