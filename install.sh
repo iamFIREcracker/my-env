@@ -360,7 +360,7 @@ function create_dir {
                     --with-features=huge \
                     --enable-multibyte \
                     --enable-largefile \
-                    --enable-pythoninterp=yes \
+                    --enable-python3interp=yes \
                     --enable-perlinterp=yes \
                     --enable-cscope \
                     --enable-fail-if-missing \
