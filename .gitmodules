@@ -6,9 +6,6 @@
 [submodule "opt/z"]
 	path = opt/z
 	url = https://github.com/rupa/z.git
-[submodule "fonts"]
-	path = fonts
-	url = https://github.com/powerline/fonts.git
 [submodule "opt/vim"]
 	path = opt/vim
 	url = https://github.com/vim/vim
