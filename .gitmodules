@@ -58,9 +58,6 @@
 [submodule "opt/bunny1/bunny1"]
 	path = opt/bunny1/bunny1
 	url = git@github.com:iamFIREcracker/bunny1.git
-[submodule "opt/typescript-language-server"]
-	path = opt/typescript-language-server
-	url = https://github.com/theia-ide/typescript-language-server.git
 [submodule "opt/rlwrap"]
 	path = opt/rlwrap
 	url = https://github.com/hanslub42/rlwrap
