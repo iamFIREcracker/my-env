@@ -10,18 +10,12 @@ ENABLE_CB=${ENABLE_CB:-0}
 ENABLE_CG=${ENABLE_CG:-0}
 ENABLE_DOTFILES=${ENABLE_DOTFILES:-0}
 ENABLE_GOOBOOK=${ENABLE_GOOBOOK:-0}
-ENABLE_JSLS=${ENABLE_JSLS:-0}
 ENABLE_KEYRING=${ENABLE_KEYRING:-0}
 ENABLE_LG=${ENABLE_LG:-0}
 ENABLE_MUTT_NOTMUCH_PY=${ENABLE_MUTT_NOTMUCH_PY:-0}
-ENABLE_NATIVEFIED_APPS=${ENABLE_NATIVEFIED_APPS:-0}
-ENABLE_OFFLINEIMAP=${ENABLE_OFFLINEIMAP:-0}
-ENABLE_QUICKLISP=${ENABLE_QUICKLISP:-0}
-ENABLE_TLS=${ENABLE_TLS:-0}
 ENABLE_TMUX=${ENABLE_TMUX:-0}
 ENABLE_GEMS=${ENABLE_GEMS:-0}
 ENABLE_VIM=${ENABLE_VIM:-0}
-ENABLE_WINPTY=${ENABLE_WINPTY:-0}
 ENABLE_RLWRAP=${ENABLE_RLWRAP:-0}
 ENABLE_Z=${ENABLE_Z:-0}
 
@@ -36,11 +30,8 @@ for i; do
         ENABLE_CB=1
         ENABLE_CG=1
         ENABLE_DOTFILES=1
-        ENABLE_JSLS=1
         ENABLE_LG=1
-        ENABLE_QUICKLISP=1
         ENABLE_RLWRAP=1
-        ENABLE_TLS=1
         ENABLE_TMUX=1
         ENABLE_GEMS=1
         ENABLE_VIM=1
@@ -55,14 +46,10 @@ for i; do
         ENABLE_DOTFILES=1
         ENABLE_GOOBOOK=1
         ENABLE_LG=1
-        ENABLE_JSLS=1
         ENABLE_KEYRING=1
         ENABLE_MUTT_NOTMUCH_PY=1
-        ENABLE_OFFLINEIMAP=1
-        ENABLE_QUICKLISP=1
         ENABLE_RLWRAP=1
         ENABLE_GEMS=1
-        ENABLE_TLS=1
         ENABLE_Z=1
     elif [ "$i" == '--os-win-top' ]; then
         ENABLE_AP=1
@@ -74,7 +61,6 @@ for i; do
         ENABLE_KEYRING=1
         ENABLE_GEMS=1
         ENABLE_LG=1
-        ENABLE_WINPTY=1
         ENABLE_RLWRAP=1
         ENABLE_Z=1
     elif [ "$i" == '--os-win-station' ]; then
@@ -85,7 +71,6 @@ for i; do
         ENABLE_DOTFILES=1
         ENABLE_GEMS=1
         ENABLE_LG=1
-        ENABLE_WINPTY=1
         ENABLE_RLWRAP=1
         ENABLE_Z=1
     else
@@ -186,36 +171,12 @@ function create_dir {
 )
 
 (
-    if [ $ENABLE_QUICKLISP -eq 1 ]; then
-        test $FORCE -eq 1 && rm -rf ~/quicklisp/
-        if [ ! -d ~/quicklisp ]; then
-            sbcl \
-                --load ~/opt/quicklisp/quicklisp.lisp \
-                --eval '(quicklisp-quickstart:install)' \
-                --eval '(ql:quickload :deploy)' \
-                --eval '(quit)'
-
-        fi
-        ensure_link "opt/ap" "quicklisp/local-projects/ap"
-        ensure_link "opt/cg" "quicklisp/local-projects/cg"
-        ensure_link "opt/lg" "quicklisp/local-projects/lg"
-    fi
-)
-
-(
     if [ $ENABLE_AP -eq 1 ]; then
         cd opt/ap
         test $FORCE -eq 1 && make clean
-        if [ $ENABLE_QUICKLISP -eq 0 ]; then
-          if [ ! -d bin ]; then
-            ./download
-            make install PREFIX=~/local
-          fi
-        else
-          if [ ! -d bin ]; then
+        if [ ! -d bin ]; then
             make
             make install PREFIX=~/local
-          fi
         fi
     fi
 )
@@ -224,16 +185,9 @@ function create_dir {
     if [ $ENABLE_CG -eq 1 ]; then
         cd opt/cg
         test $FORCE -eq 1 && make clean
-        if [ $ENABLE_QUICKLISP -eq 0 ]; then
-          if [ ! -d bin ]; then
-            ./download
-            make install PREFIX=~/local
-          fi
-        else
-          if [ ! -d bin ]; then
+        if [ ! -d bin ]; then
             make
             make install PREFIX=~/local
-          fi
         fi
     fi
 )
@@ -246,16 +200,6 @@ function create_dir {
             python3w -m virtualenv venv
             vpython setup.py install \
               --install-scripts=~/local/bin
-        fi
-    fi
-)
-
-(
-    if [ $ENABLE_JSLS -eq 1 ]; then
-        cd opt/js-langserver
-        test $FORCE -eq 1 && rm -rf node_modules
-        if [ ! -d node_modules ]; then
-            npm install
         fi
     fi
 )
@@ -275,25 +219,10 @@ function create_dir {
     if [ $ENABLE_LG -eq 1 ]; then
         cd opt/lg
         test $FORCE -eq 1 && make clean
-        if [ $ENABLE_QUICKLISP -eq 0 ]; then
-          if [ ! -d bin ]; then
-            ./download
-            make install PREFIX=~/local
-          fi
-        else
-          if [ ! -d bin ]; then
+        if [ ! -d bin ]; then
             make
             make install PREFIX=~/local
-          fi
         fi
-    fi
-)
-
-(
-    if [ $ENABLE_NATIVEFIED_APPS -eq 1 ]; then
-        cd nativefied-apps/
-        test $FORCE -eq 1 && rm -rf node_modules
-        npm install
     fi
 )
 
@@ -305,29 +234,6 @@ function create_dir {
             virtualenvw venv
             vpython setup.py install \
               --install-scripts=~/local/bin
-        fi
-    fi
-)
-
-(
-    if [ $ENABLE_OFFLINEIMAP -eq 1 ]; then
-        cd opt/offlineimap
-        test $FORCE -eq 1 && rm -rf venv
-        if [ ! -d venv ]; then
-            virtualenvw venv #--python=python3
-            vpip install -r requirements.txt
-            vpython setup.py install \
-              --install-scripts=~/local/bin
-        fi
-    fi
-)
-
-(
-    if [ $ENABLE_TLS -eq 1 ]; then
-        cd opt/typescript-language-server
-        test $FORCE -eq 1 && rm -rf node_modules
-        if [ ! -d node_modules ]; then
-            yarn install
         fi
     fi
 )
@@ -413,18 +319,6 @@ function create_dir {
               --prefix=$HOME/local
             make
             make install
-        fi
-    fi
-)
-
-(
-    if [ $ENABLE_WINPTY -eq 1 ]; then
-        cd opt/winpty
-        test $FORCE -eq 1 && make clean
-        if [ ! -f build/winpty.exe ]; then
-            ./configure
-            make
-            make install PREFIX=~/local
         fi
     fi
 )
